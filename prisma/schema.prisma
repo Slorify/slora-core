@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id          Int         @id @default(autoincrement())
+  username    String      @unique
+  email       String      @unique
+  password    String
+  role        Role        @default(USER)
+  profile     Profile?
+  workspaces  Workspace[]
+  githubApp   GithubApp[]
+  registerdAt DateTime    @default(now())
+}
+
+model GithubApp {
+  id             Int      @id @default(autoincrement())
+  name           String
+  url            String
+  slug           String
+  app_id         Int      @unique
+  private_key    String
+  owner_login    Json
+  client_id      String
+  client_secret  String
+  webhook_secret String
+  isInstalled    Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+}
+
+model Profile {
+  id        Int     @id @default(autoincrement())
+  firstname String?
+  lastname  String?
+  avtarUrl  String?
+  userId    Int     @unique
+  user      User    @relation(fields: [userId], references: [id])
+}
+
+model Workspace {
+  id          Int        @id @default(autoincrement())
+  name        String
+  slug        String     @unique
+  description String?
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  instances   Instance[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime?  @updatedAt
+}
+
+enum Type {
+  Dockerfile
+  Railpacks
+  Static
+}
+
+model Instance {
+  id          Int       @id @default(autoincrement())
+  name        String
+  slug        String    @unique
+  image       String
+  type        Type      @default(Railpacks)
+  gitUrl      String?
+  uploadPath  String?
+  volume      String?
+  portId      Int?
+  ports       Port?
+  domains     Domain?
+  enviorement Json?
+  workspaceId Int
+  workspaces  Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Domain {
+  id     Int    @id @default(autoincrement())
+  name   String
+  domain String
+  port   Int    @default(80)
+
+  instanceId Int      @unique
+  instances  Instance @relation(fields: [instanceId], references: [id], onDelete: Cascade)
+}
+
+model Port {
+  id       Int  @id @default(autoincrement())
+  host     Int?
+  internal Int
+
+  instanceId Int      @unique
+  instances  Instance @relation(fields: [instanceId], references: [id], onDelete: Cascade)
+}

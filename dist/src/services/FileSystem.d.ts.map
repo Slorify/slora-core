@@ -1,0 +1,1 @@
+{"version":3,"file":"FileSystem.d.ts","sourceRoot":"","sources":["../../../src/services/FileSystem.ts"],"names":[],"mappings":"AAEA,cAAM,UAAU;IACR,SAAS,CAAC,IAAI,EAAE,MAAM;IAGtB,SAAS,CAAC,IAAI,EAAE,MAAM;IAQtB,OAAO,CAAC,IAAI,EAAE,MAAM;IAIpB,SAAS,CAAC,IAAI,EAAE,MAAM,EAAE,IAAI,EAAE,MAAM;IAIpC,QAAQ,CAAC,IAAI,EAAE,MAAM;CAG5B;AAED,eAAO,MAAM,WAAW,YAAmB,CAAC"}
