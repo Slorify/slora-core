@@ -46,8 +46,8 @@ export type PrismaVersion = {
     engine: string;
 };
 /**
- * Prisma Client JS version: 7.2.0
- * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
+ * Prisma Client JS version: 7.3.0
+ * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
  */
 export declare const prismaVersion: PrismaVersion;
 /**
@@ -897,14 +897,11 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export declare const GithubAppScalarFieldEnum: {
     readonly id: "id";
     readonly name: "name";
-    readonly url: "url";
     readonly slug: "slug";
     readonly app_id: "app_id";
     readonly private_key: "private_key";
     readonly owner_login: "owner_login";
-    readonly client_id: "client_id";
-    readonly client_secret: "client_secret";
-    readonly webhook_secret: "webhook_secret";
+    readonly cloneToken: "cloneToken";
     readonly isInstalled: "isInstalled";
     readonly createdAt: "createdAt";
     readonly userId: "userId";

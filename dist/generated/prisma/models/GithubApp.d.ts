@@ -25,13 +25,10 @@ export type GithubAppSumAggregateOutputType = {
 export type GithubAppMinAggregateOutputType = {
     id: number | null;
     name: string | null;
-    url: string | null;
     slug: string | null;
     app_id: number | null;
     private_key: string | null;
-    client_id: string | null;
-    client_secret: string | null;
-    webhook_secret: string | null;
+    cloneToken: string | null;
     isInstalled: boolean | null;
     createdAt: Date | null;
     userId: number | null;
@@ -39,13 +36,10 @@ export type GithubAppMinAggregateOutputType = {
 export type GithubAppMaxAggregateOutputType = {
     id: number | null;
     name: string | null;
-    url: string | null;
     slug: string | null;
     app_id: number | null;
     private_key: string | null;
-    client_id: string | null;
-    client_secret: string | null;
-    webhook_secret: string | null;
+    cloneToken: string | null;
     isInstalled: boolean | null;
     createdAt: Date | null;
     userId: number | null;
@@ -53,14 +47,11 @@ export type GithubAppMaxAggregateOutputType = {
 export type GithubAppCountAggregateOutputType = {
     id: number;
     name: number;
-    url: number;
     slug: number;
     app_id: number;
     private_key: number;
     owner_login: number;
-    client_id: number;
-    client_secret: number;
-    webhook_secret: number;
+    cloneToken: number;
     isInstalled: number;
     createdAt: number;
     userId: number;
@@ -79,13 +70,10 @@ export type GithubAppSumAggregateInputType = {
 export type GithubAppMinAggregateInputType = {
     id?: true;
     name?: true;
-    url?: true;
     slug?: true;
     app_id?: true;
     private_key?: true;
-    client_id?: true;
-    client_secret?: true;
-    webhook_secret?: true;
+    cloneToken?: true;
     isInstalled?: true;
     createdAt?: true;
     userId?: true;
@@ -93,13 +81,10 @@ export type GithubAppMinAggregateInputType = {
 export type GithubAppMaxAggregateInputType = {
     id?: true;
     name?: true;
-    url?: true;
     slug?: true;
     app_id?: true;
     private_key?: true;
-    client_id?: true;
-    client_secret?: true;
-    webhook_secret?: true;
+    cloneToken?: true;
     isInstalled?: true;
     createdAt?: true;
     userId?: true;
@@ -107,14 +92,11 @@ export type GithubAppMaxAggregateInputType = {
 export type GithubAppCountAggregateInputType = {
     id?: true;
     name?: true;
-    url?: true;
     slug?: true;
     app_id?: true;
     private_key?: true;
     owner_login?: true;
-    client_id?: true;
-    client_secret?: true;
-    webhook_secret?: true;
+    cloneToken?: true;
     isInstalled?: true;
     createdAt?: true;
     userId?: true;
@@ -199,14 +181,11 @@ export type GithubAppGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type GithubAppGroupByOutputType = {
     id: number;
     name: string;
-    url: string;
     slug: string;
     app_id: number;
     private_key: string;
     owner_login: runtime.JsonValue;
-    client_id: string;
-    client_secret: string;
-    webhook_secret: string;
+    cloneToken: string;
     isInstalled: boolean;
     createdAt: Date;
     userId: number;
@@ -225,14 +204,11 @@ export type GithubAppWhereInput = {
     NOT?: Prisma.GithubAppWhereInput | Prisma.GithubAppWhereInput[];
     id?: Prisma.IntFilter<"GithubApp"> | number;
     name?: Prisma.StringFilter<"GithubApp"> | string;
-    url?: Prisma.StringFilter<"GithubApp"> | string;
     slug?: Prisma.StringFilter<"GithubApp"> | string;
     app_id?: Prisma.IntFilter<"GithubApp"> | number;
     private_key?: Prisma.StringFilter<"GithubApp"> | string;
     owner_login?: Prisma.JsonFilter<"GithubApp">;
-    client_id?: Prisma.StringFilter<"GithubApp"> | string;
-    client_secret?: Prisma.StringFilter<"GithubApp"> | string;
-    webhook_secret?: Prisma.StringFilter<"GithubApp"> | string;
+    cloneToken?: Prisma.StringFilter<"GithubApp"> | string;
     isInstalled?: Prisma.BoolFilter<"GithubApp"> | boolean;
     createdAt?: Prisma.DateTimeFilter<"GithubApp"> | Date | string;
     userId?: Prisma.IntFilter<"GithubApp"> | number;
@@ -241,14 +217,11 @@ export type GithubAppWhereInput = {
 export type GithubAppOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
-    url?: Prisma.SortOrder;
     slug?: Prisma.SortOrder;
     app_id?: Prisma.SortOrder;
     private_key?: Prisma.SortOrder;
     owner_login?: Prisma.SortOrder;
-    client_id?: Prisma.SortOrder;
-    client_secret?: Prisma.SortOrder;
-    webhook_secret?: Prisma.SortOrder;
+    cloneToken?: Prisma.SortOrder;
     isInstalled?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
@@ -261,13 +234,10 @@ export type GithubAppWhereUniqueInput = Prisma.AtLeast<{
     OR?: Prisma.GithubAppWhereInput[];
     NOT?: Prisma.GithubAppWhereInput | Prisma.GithubAppWhereInput[];
     name?: Prisma.StringFilter<"GithubApp"> | string;
-    url?: Prisma.StringFilter<"GithubApp"> | string;
     slug?: Prisma.StringFilter<"GithubApp"> | string;
     private_key?: Prisma.StringFilter<"GithubApp"> | string;
     owner_login?: Prisma.JsonFilter<"GithubApp">;
-    client_id?: Prisma.StringFilter<"GithubApp"> | string;
-    client_secret?: Prisma.StringFilter<"GithubApp"> | string;
-    webhook_secret?: Prisma.StringFilter<"GithubApp"> | string;
+    cloneToken?: Prisma.StringFilter<"GithubApp"> | string;
     isInstalled?: Prisma.BoolFilter<"GithubApp"> | boolean;
     createdAt?: Prisma.DateTimeFilter<"GithubApp"> | Date | string;
     userId?: Prisma.IntFilter<"GithubApp"> | number;
@@ -276,14 +246,11 @@ export type GithubAppWhereUniqueInput = Prisma.AtLeast<{
 export type GithubAppOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
-    url?: Prisma.SortOrder;
     slug?: Prisma.SortOrder;
     app_id?: Prisma.SortOrder;
     private_key?: Prisma.SortOrder;
     owner_login?: Prisma.SortOrder;
-    client_id?: Prisma.SortOrder;
-    client_secret?: Prisma.SortOrder;
-    webhook_secret?: Prisma.SortOrder;
+    cloneToken?: Prisma.SortOrder;
     isInstalled?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
@@ -299,28 +266,22 @@ export type GithubAppScalarWhereWithAggregatesInput = {
     NOT?: Prisma.GithubAppScalarWhereWithAggregatesInput | Prisma.GithubAppScalarWhereWithAggregatesInput[];
     id?: Prisma.IntWithAggregatesFilter<"GithubApp"> | number;
     name?: Prisma.StringWithAggregatesFilter<"GithubApp"> | string;
-    url?: Prisma.StringWithAggregatesFilter<"GithubApp"> | string;
     slug?: Prisma.StringWithAggregatesFilter<"GithubApp"> | string;
     app_id?: Prisma.IntWithAggregatesFilter<"GithubApp"> | number;
     private_key?: Prisma.StringWithAggregatesFilter<"GithubApp"> | string;
     owner_login?: Prisma.JsonWithAggregatesFilter<"GithubApp">;
-    client_id?: Prisma.StringWithAggregatesFilter<"GithubApp"> | string;
-    client_secret?: Prisma.StringWithAggregatesFilter<"GithubApp"> | string;
-    webhook_secret?: Prisma.StringWithAggregatesFilter<"GithubApp"> | string;
+    cloneToken?: Prisma.StringWithAggregatesFilter<"GithubApp"> | string;
     isInstalled?: Prisma.BoolWithAggregatesFilter<"GithubApp"> | boolean;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"GithubApp"> | Date | string;
     userId?: Prisma.IntWithAggregatesFilter<"GithubApp"> | number;
 };
 export type GithubAppCreateInput = {
     name: string;
-    url: string;
     slug: string;
     app_id: number;
     private_key: string;
     owner_login: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id: string;
-    client_secret: string;
-    webhook_secret: string;
+    cloneToken: string;
     isInstalled?: boolean;
     createdAt?: Date | string;
     user: Prisma.UserCreateNestedOneWithoutGithubAppInput;
@@ -328,28 +289,22 @@ export type GithubAppCreateInput = {
 export type GithubAppUncheckedCreateInput = {
     id?: number;
     name: string;
-    url: string;
     slug: string;
     app_id: number;
     private_key: string;
     owner_login: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id: string;
-    client_secret: string;
-    webhook_secret: string;
+    cloneToken: string;
     isInstalled?: boolean;
     createdAt?: Date | string;
     userId: number;
 };
 export type GithubAppUpdateInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
-    url?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     app_id?: Prisma.IntFieldUpdateOperationsInput | number;
     private_key?: Prisma.StringFieldUpdateOperationsInput | string;
     owner_login?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id?: Prisma.StringFieldUpdateOperationsInput | string;
-    client_secret?: Prisma.StringFieldUpdateOperationsInput | string;
-    webhook_secret?: Prisma.StringFieldUpdateOperationsInput | string;
+    cloneToken?: Prisma.StringFieldUpdateOperationsInput | string;
     isInstalled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     user?: Prisma.UserUpdateOneRequiredWithoutGithubAppNestedInput;
@@ -357,14 +312,11 @@ export type GithubAppUpdateInput = {
 export type GithubAppUncheckedUpdateInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
-    url?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     app_id?: Prisma.IntFieldUpdateOperationsInput | number;
     private_key?: Prisma.StringFieldUpdateOperationsInput | string;
     owner_login?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id?: Prisma.StringFieldUpdateOperationsInput | string;
-    client_secret?: Prisma.StringFieldUpdateOperationsInput | string;
-    webhook_secret?: Prisma.StringFieldUpdateOperationsInput | string;
+    cloneToken?: Prisma.StringFieldUpdateOperationsInput | string;
     isInstalled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     userId?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -372,42 +324,33 @@ export type GithubAppUncheckedUpdateInput = {
 export type GithubAppCreateManyInput = {
     id?: number;
     name: string;
-    url: string;
     slug: string;
     app_id: number;
     private_key: string;
     owner_login: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id: string;
-    client_secret: string;
-    webhook_secret: string;
+    cloneToken: string;
     isInstalled?: boolean;
     createdAt?: Date | string;
     userId: number;
 };
 export type GithubAppUpdateManyMutationInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
-    url?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     app_id?: Prisma.IntFieldUpdateOperationsInput | number;
     private_key?: Prisma.StringFieldUpdateOperationsInput | string;
     owner_login?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id?: Prisma.StringFieldUpdateOperationsInput | string;
-    client_secret?: Prisma.StringFieldUpdateOperationsInput | string;
-    webhook_secret?: Prisma.StringFieldUpdateOperationsInput | string;
+    cloneToken?: Prisma.StringFieldUpdateOperationsInput | string;
     isInstalled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type GithubAppUncheckedUpdateManyInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
-    url?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     app_id?: Prisma.IntFieldUpdateOperationsInput | number;
     private_key?: Prisma.StringFieldUpdateOperationsInput | string;
     owner_login?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id?: Prisma.StringFieldUpdateOperationsInput | string;
-    client_secret?: Prisma.StringFieldUpdateOperationsInput | string;
-    webhook_secret?: Prisma.StringFieldUpdateOperationsInput | string;
+    cloneToken?: Prisma.StringFieldUpdateOperationsInput | string;
     isInstalled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     userId?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -423,14 +366,11 @@ export type GithubAppOrderByRelationAggregateInput = {
 export type GithubAppCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
-    url?: Prisma.SortOrder;
     slug?: Prisma.SortOrder;
     app_id?: Prisma.SortOrder;
     private_key?: Prisma.SortOrder;
     owner_login?: Prisma.SortOrder;
-    client_id?: Prisma.SortOrder;
-    client_secret?: Prisma.SortOrder;
-    webhook_secret?: Prisma.SortOrder;
+    cloneToken?: Prisma.SortOrder;
     isInstalled?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
@@ -443,13 +383,10 @@ export type GithubAppAvgOrderByAggregateInput = {
 export type GithubAppMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
-    url?: Prisma.SortOrder;
     slug?: Prisma.SortOrder;
     app_id?: Prisma.SortOrder;
     private_key?: Prisma.SortOrder;
-    client_id?: Prisma.SortOrder;
-    client_secret?: Prisma.SortOrder;
-    webhook_secret?: Prisma.SortOrder;
+    cloneToken?: Prisma.SortOrder;
     isInstalled?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
@@ -457,13 +394,10 @@ export type GithubAppMaxOrderByAggregateInput = {
 export type GithubAppMinOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
-    url?: Prisma.SortOrder;
     slug?: Prisma.SortOrder;
     app_id?: Prisma.SortOrder;
     private_key?: Prisma.SortOrder;
-    client_id?: Prisma.SortOrder;
-    client_secret?: Prisma.SortOrder;
-    webhook_secret?: Prisma.SortOrder;
+    cloneToken?: Prisma.SortOrder;
     isInstalled?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
@@ -516,28 +450,22 @@ export type BoolFieldUpdateOperationsInput = {
 };
 export type GithubAppCreateWithoutUserInput = {
     name: string;
-    url: string;
     slug: string;
     app_id: number;
     private_key: string;
     owner_login: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id: string;
-    client_secret: string;
-    webhook_secret: string;
+    cloneToken: string;
     isInstalled?: boolean;
     createdAt?: Date | string;
 };
 export type GithubAppUncheckedCreateWithoutUserInput = {
     id?: number;
     name: string;
-    url: string;
     slug: string;
     app_id: number;
     private_key: string;
     owner_login: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id: string;
-    client_secret: string;
-    webhook_secret: string;
+    cloneToken: string;
     isInstalled?: boolean;
     createdAt?: Date | string;
 };
@@ -567,14 +495,11 @@ export type GithubAppScalarWhereInput = {
     NOT?: Prisma.GithubAppScalarWhereInput | Prisma.GithubAppScalarWhereInput[];
     id?: Prisma.IntFilter<"GithubApp"> | number;
     name?: Prisma.StringFilter<"GithubApp"> | string;
-    url?: Prisma.StringFilter<"GithubApp"> | string;
     slug?: Prisma.StringFilter<"GithubApp"> | string;
     app_id?: Prisma.IntFilter<"GithubApp"> | number;
     private_key?: Prisma.StringFilter<"GithubApp"> | string;
     owner_login?: Prisma.JsonFilter<"GithubApp">;
-    client_id?: Prisma.StringFilter<"GithubApp"> | string;
-    client_secret?: Prisma.StringFilter<"GithubApp"> | string;
-    webhook_secret?: Prisma.StringFilter<"GithubApp"> | string;
+    cloneToken?: Prisma.StringFilter<"GithubApp"> | string;
     isInstalled?: Prisma.BoolFilter<"GithubApp"> | boolean;
     createdAt?: Prisma.DateTimeFilter<"GithubApp"> | Date | string;
     userId?: Prisma.IntFilter<"GithubApp"> | number;
@@ -582,69 +507,54 @@ export type GithubAppScalarWhereInput = {
 export type GithubAppCreateManyUserInput = {
     id?: number;
     name: string;
-    url: string;
     slug: string;
     app_id: number;
     private_key: string;
     owner_login: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id: string;
-    client_secret: string;
-    webhook_secret: string;
+    cloneToken: string;
     isInstalled?: boolean;
     createdAt?: Date | string;
 };
 export type GithubAppUpdateWithoutUserInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
-    url?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     app_id?: Prisma.IntFieldUpdateOperationsInput | number;
     private_key?: Prisma.StringFieldUpdateOperationsInput | string;
     owner_login?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id?: Prisma.StringFieldUpdateOperationsInput | string;
-    client_secret?: Prisma.StringFieldUpdateOperationsInput | string;
-    webhook_secret?: Prisma.StringFieldUpdateOperationsInput | string;
+    cloneToken?: Prisma.StringFieldUpdateOperationsInput | string;
     isInstalled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type GithubAppUncheckedUpdateWithoutUserInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
-    url?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     app_id?: Prisma.IntFieldUpdateOperationsInput | number;
     private_key?: Prisma.StringFieldUpdateOperationsInput | string;
     owner_login?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id?: Prisma.StringFieldUpdateOperationsInput | string;
-    client_secret?: Prisma.StringFieldUpdateOperationsInput | string;
-    webhook_secret?: Prisma.StringFieldUpdateOperationsInput | string;
+    cloneToken?: Prisma.StringFieldUpdateOperationsInput | string;
     isInstalled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type GithubAppUncheckedUpdateManyWithoutUserInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
-    url?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     app_id?: Prisma.IntFieldUpdateOperationsInput | number;
     private_key?: Prisma.StringFieldUpdateOperationsInput | string;
     owner_login?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
-    client_id?: Prisma.StringFieldUpdateOperationsInput | string;
-    client_secret?: Prisma.StringFieldUpdateOperationsInput | string;
-    webhook_secret?: Prisma.StringFieldUpdateOperationsInput | string;
+    cloneToken?: Prisma.StringFieldUpdateOperationsInput | string;
     isInstalled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type GithubAppSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     name?: boolean;
-    url?: boolean;
     slug?: boolean;
     app_id?: boolean;
     private_key?: boolean;
     owner_login?: boolean;
-    client_id?: boolean;
-    client_secret?: boolean;
-    webhook_secret?: boolean;
+    cloneToken?: boolean;
     isInstalled?: boolean;
     createdAt?: boolean;
     userId?: boolean;
@@ -653,14 +563,11 @@ export type GithubAppSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type GithubAppSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     name?: boolean;
-    url?: boolean;
     slug?: boolean;
     app_id?: boolean;
     private_key?: boolean;
     owner_login?: boolean;
-    client_id?: boolean;
-    client_secret?: boolean;
-    webhook_secret?: boolean;
+    cloneToken?: boolean;
     isInstalled?: boolean;
     createdAt?: boolean;
     userId?: boolean;
@@ -669,14 +576,11 @@ export type GithubAppSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type GithubAppSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     name?: boolean;
-    url?: boolean;
     slug?: boolean;
     app_id?: boolean;
     private_key?: boolean;
     owner_login?: boolean;
-    client_id?: boolean;
-    client_secret?: boolean;
-    webhook_secret?: boolean;
+    cloneToken?: boolean;
     isInstalled?: boolean;
     createdAt?: boolean;
     userId?: boolean;
@@ -685,19 +589,16 @@ export type GithubAppSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type GithubAppSelectScalar = {
     id?: boolean;
     name?: boolean;
-    url?: boolean;
     slug?: boolean;
     app_id?: boolean;
     private_key?: boolean;
     owner_login?: boolean;
-    client_id?: boolean;
-    client_secret?: boolean;
-    webhook_secret?: boolean;
+    cloneToken?: boolean;
     isInstalled?: boolean;
     createdAt?: boolean;
     userId?: boolean;
 };
-export type GithubAppOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "url" | "slug" | "app_id" | "private_key" | "owner_login" | "client_id" | "client_secret" | "webhook_secret" | "isInstalled" | "createdAt" | "userId", ExtArgs["result"]["githubApp"]>;
+export type GithubAppOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "app_id" | "private_key" | "owner_login" | "cloneToken" | "isInstalled" | "createdAt" | "userId", ExtArgs["result"]["githubApp"]>;
 export type GithubAppInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
@@ -715,14 +616,11 @@ export type $GithubAppPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: number;
         name: string;
-        url: string;
         slug: string;
         app_id: number;
         private_key: string;
         owner_login: runtime.JsonValue;
-        client_id: string;
-        client_secret: string;
-        webhook_secret: string;
+        cloneToken: string;
         isInstalled: boolean;
         createdAt: Date;
         userId: number;
@@ -1083,14 +981,11 @@ export interface Prisma__GithubAppClient<T, Null = never, ExtArgs extends runtim
 export interface GithubAppFieldRefs {
     readonly id: Prisma.FieldRef<"GithubApp", 'Int'>;
     readonly name: Prisma.FieldRef<"GithubApp", 'String'>;
-    readonly url: Prisma.FieldRef<"GithubApp", 'String'>;
     readonly slug: Prisma.FieldRef<"GithubApp", 'String'>;
     readonly app_id: Prisma.FieldRef<"GithubApp", 'Int'>;
     readonly private_key: Prisma.FieldRef<"GithubApp", 'String'>;
     readonly owner_login: Prisma.FieldRef<"GithubApp", 'Json'>;
-    readonly client_id: Prisma.FieldRef<"GithubApp", 'String'>;
-    readonly client_secret: Prisma.FieldRef<"GithubApp", 'String'>;
-    readonly webhook_secret: Prisma.FieldRef<"GithubApp", 'String'>;
+    readonly cloneToken: Prisma.FieldRef<"GithubApp", 'String'>;
     readonly isInstalled: Prisma.FieldRef<"GithubApp", 'Boolean'>;
     readonly createdAt: Prisma.FieldRef<"GithubApp", 'DateTime'>;
     readonly userId: Prisma.FieldRef<"GithubApp", 'Int'>;

@@ -51,9 +51,9 @@ export const ModelName = {
 /*
  * Enums
  */
-export const TransactionIsolationLevel = {
+export const TransactionIsolationLevel = runtime.makeStrictEnum({
     Serializable: 'Serializable'
-};
+});
 export const SessionScalarFieldEnum = {
     id: 'id',
     sid: 'sid',
@@ -71,14 +71,11 @@ export const UserScalarFieldEnum = {
 export const GithubAppScalarFieldEnum = {
     id: 'id',
     name: 'name',
-    url: 'url',
     slug: 'slug',
     app_id: 'app_id',
     private_key: 'private_key',
     owner_login: 'owner_login',
-    client_id: 'client_id',
-    client_secret: 'client_secret',
-    webhook_secret: 'webhook_secret',
+    cloneToken: 'cloneToken',
     isInstalled: 'isInstalled',
     createdAt: 'createdAt',
     userId: 'userId'
@@ -132,16 +129,16 @@ export const SortOrder = {
     desc: 'desc'
 };
 export const JsonNullValueInput = {
-    JsonNull: 'JsonNull'
+    JsonNull: JsonNull
 };
 export const NullableJsonNullValueInput = {
-    DbNull: 'DbNull',
-    JsonNull: 'JsonNull'
+    DbNull: DbNull,
+    JsonNull: JsonNull
 };
 export const JsonNullValueFilter = {
-    DbNull: 'DbNull',
-    JsonNull: 'JsonNull',
-    AnyNull: 'AnyNull'
+    DbNull: DbNull,
+    JsonNull: JsonNull,
+    AnyNull: AnyNull
 };
 export const QueryMode = {
     default: 'default',

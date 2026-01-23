@@ -1,6 +1,6 @@
 import express, {} from "express";
 import { config } from "dotenv";
-import { routerHandler } from "./handlers/route.handler.js";
+import { routerHandler } from "./route.js";
 import { sessionHandler } from "./handlers/sessionHandler.js";
 import { fileURLToPath } from "node:url";
 import path, { dirname, join } from "node:path";
@@ -14,21 +14,21 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: "*",
         credentials: true,
     },
 });
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const isProd = process.env.NODE_ENV === "production";
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "*",
     credentials: true,
 }));
 app.use(express.json());
 app.use(sessionHandler);
 app.use("/api/v1", routerHandler);
 if (isProd) {
-    const clientBuildPath = path.resolve(__dirname, "../../../client/dist");
+    const clientBuildPath = path.resolve(__dirname, "../../../slora-portal/dist");
     app.use(express.static(clientBuildPath));
     app.get(/.*/, (_, res) => {
         res.sendFile(path.join(clientBuildPath, "index.html"));

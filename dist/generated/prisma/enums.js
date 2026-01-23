@@ -12,8 +12,8 @@ export const Role = {
     ADMIN: 'ADMIN'
 };
 export const Type = {
-    Dockerfile: 'Dockerfile',
     Railpacks: 'Railpacks',
+    Dockerfile: 'Dockerfile',
     Static: 'Static'
 };
 //# sourceMappingURL=enums.js.map

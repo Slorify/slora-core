@@ -1,4 +1,4 @@
-export declare const GitOAuthMenifest: (name: string) => Promise<{
+export declare const GitOAuthMenifest: () => Promise<{
     name: string;
     url: string;
     hook_attributes: {

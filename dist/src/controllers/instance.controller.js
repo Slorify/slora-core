@@ -10,11 +10,9 @@ export const getInstance = async (req, res) => {
     try {
         const slug = String(req.params.slug);
         const islug = String(req.params.islug);
-        const workspace = await prisma.workspace.findFirst({
-            where: { slug: slug },
-            include: { instances: { where: { slug: islug } } },
+        const instance = await prisma.instance.findFirst({
+            where: { slug: islug, workspaces: { slug: slug } },
         });
-        const instance = workspace?.instances;
         if (!instance) {
             res.status(400).json({ success: false, message: "Instance not exists." });
         }

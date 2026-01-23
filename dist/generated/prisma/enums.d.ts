@@ -4,8 +4,8 @@ export declare const Role: {
 };
 export type Role = (typeof Role)[keyof typeof Role];
 export declare const Type: {
-    readonly Dockerfile: "Dockerfile";
     readonly Railpacks: "Railpacks";
+    readonly Dockerfile: "Dockerfile";
     readonly Static: "Static";
 };
 export type Type = (typeof Type)[keyof typeof Type];

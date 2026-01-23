@@ -59,14 +59,11 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export declare const GithubAppScalarFieldEnum: {
     readonly id: "id";
     readonly name: "name";
-    readonly url: "url";
     readonly slug: "slug";
     readonly app_id: "app_id";
     readonly private_key: "private_key";
     readonly owner_login: "owner_login";
-    readonly client_id: "client_id";
-    readonly client_secret: "client_secret";
-    readonly webhook_secret: "webhook_secret";
+    readonly cloneToken: "cloneToken";
     readonly isInstalled: "isInstalled";
     readonly createdAt: "createdAt";
     readonly userId: "userId";
@@ -127,18 +124,18 @@ export declare const SortOrder: {
 };
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
 export declare const JsonNullValueInput: {
-    readonly JsonNull: "JsonNull";
+    readonly JsonNull: import("@prisma/client/runtime/client.js").JsonNullClass;
 };
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
 export declare const NullableJsonNullValueInput: {
-    readonly DbNull: "DbNull";
-    readonly JsonNull: "JsonNull";
+    readonly DbNull: import("@prisma/client/runtime/client.js").DbNullClass;
+    readonly JsonNull: import("@prisma/client/runtime/client.js").JsonNullClass;
 };
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
 export declare const JsonNullValueFilter: {
-    readonly DbNull: "DbNull";
-    readonly JsonNull: "JsonNull";
-    readonly AnyNull: "AnyNull";
+    readonly DbNull: import("@prisma/client/runtime/client.js").DbNullClass;
+    readonly JsonNull: import("@prisma/client/runtime/client.js").JsonNullClass;
+    readonly AnyNull: import("@prisma/client/runtime/client.js").AnyNullClass;
 };
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];
 export declare const QueryMode: {
