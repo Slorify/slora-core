@@ -1,7 +1,6 @@
 import { Octokit } from "@octokit/core";
 import { prisma } from "./prisma.js";
 import { createAppAuth } from "@octokit/auth-app";
-import { app } from "../server.js";
 import { createOctokitGit, getInstallationId } from "./octokitGit.js";
 
 export const getAllGitApps = async (email: string) => {
