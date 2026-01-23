@@ -2,32 +2,39 @@ import fs from "fs/promises";
 import { NETWORKS, PATHS } from "../config/paths.js";
 import { runCmd } from "../utils/runCmd.js";
 import { fileService } from "./FileSystem.js";
-
 function generateTraefikLabels(
   instanceName: string,
-  domain: string,
+  domains: { domain: string }[],
   port: number,
   network = "emberlabs-proxy",
 ): string[] {
-  return [
+  const labels: string[] = [
     "traefik.enable=true",
     `traefik.docker.network=${network}`,
-
-    // HTTP
-    `traefik.http.routers.${instanceName}-http.rule=Host(\`${domain}\`)`,
-    `traefik.http.routers.${instanceName}-http.entrypoints=web`,
-    `traefik.http.routers.${instanceName}-http.service=${instanceName}-service`,
-
-    // HTTPS
-    `traefik.http.routers.${instanceName}-https.rule=Host(\`${domain}\`)`,
-    `traefik.http.routers.${instanceName}-https.entrypoints=websecure`,
-    `traefik.http.routers.${instanceName}-https.tls=true`,
-    `traefik.http.routers.${instanceName}-https.tls.certresolver=myresolver`,
-    `traefik.http.routers.${instanceName}-https.service=${instanceName}-service`,
-
-    // Service port
-    `traefik.http.services.${instanceName}-service.loadbalancer.server.port=${port}`,
   ];
+
+  domains.forEach((d, index) => {
+    const routerId = `${instanceName}-${index}`;
+
+    labels.push(
+      // HTTP
+      `traefik.http.routers.${routerId}-http.rule=Host(\`${d.domain}\`)`,
+      `traefik.http.routers.${routerId}-http.entrypoints=web`,
+      `traefik.http.routers.${routerId}-http.service=${routerId}-service`,
+
+      // HTTPS
+      `traefik.http.routers.${routerId}-https.rule=Host(\`${d.domain}\`)`,
+      `traefik.http.routers.${routerId}-https.entrypoints=websecure`,
+      `traefik.http.routers.${routerId}-https.tls=true`,
+      `traefik.http.routers.${routerId}-https.tls.certresolver=myresolver`,
+      `traefik.http.routers.${routerId}-https.service=${routerId}-service`,
+
+      // Service port
+      `traefik.http.services.${routerId}-service.loadbalancer.server.port=${port}`,
+    );
+  });
+
+  return labels;
 }
 
 class Compose {
@@ -36,7 +43,7 @@ class Compose {
     await fileService.createDir(composeDir);
 
     const services = instances.map((instance) => {
-      /* ---------- ENV (ARRAY STYLE) ---------- */
+      /* ---------- ENV ---------- */
       const environments =
         instance.enviorement && typeof instance.enviorement === "object"
           ? Object.entries(instance.enviorement)
@@ -44,23 +51,32 @@ class Compose {
             .join("\n")
           : "";
 
-      /* ---------- VOLUME ---------- */
+      /* ---------- VOLUMES ---------- */
       const volumes = instance.volume ? `      - ${instance.volume}` : "";
 
-      /* ---------- PORT ---------- */
-      const ports = instance.ports
-        ? `      - "${instance.ports.host ? instance.ports.host + ":" : ""}${instance.ports.internal}"`
-        : "";
+      /* ---------- PORTS (MULTIPLE) ---------- */
+      const ports =
+        Array.isArray(instance.ports) && instance.ports.length > 0
+          ? instance.ports
+            .map(
+              (p: any) =>
+                `      - "${p.host ? `${p.host}:` : ""}${p.internal}"`,
+            )
+            .join("\n")
+          : "";
 
       /* ---------- TRAEFIK LABELS ---------- */
       const labels =
-        instance.domains && instance.ports
+        Array.isArray(instance.domains) &&
+          instance.domains.length > 0 &&
+          Array.isArray(instance.ports) &&
+          instance.ports.length > 0
           ? generateTraefikLabels(
             instance.slug,
-            instance.domains.domain,
-            instance.domains.port,
+            instance.domains,
+            instance.ports[0].internal, // Traefik uses container port
           )
-            .map((l: string) => `      - "${l}"`)
+            .map((l) => `      - "${l}"`)
             .join("\n")
           : "";
 
@@ -69,10 +85,10 @@ class Compose {
       image: ${instance.image}
       container_name: ${instance.slug}
       restart: unless-stopped
-  ${environments ? `    environment:\n${environments}` : ""}
-  ${volumes ? `    volumes:\n${volumes}` : ""}
-  ${ports ? `    ports:\n${ports}` : ""}
-  ${labels ? `    labels:\n${labels}` : ""}
+${environments ? `      environment:\n${environments}` : ""}
+${volumes ? `      volumes:\n${volumes}` : ""}
+${ports ? `      ports:\n${ports}` : ""}
+${labels ? `      labels:\n${labels}` : ""}
       networks:
         - ${NETWORKS.proxy}
 `;
@@ -119,7 +135,7 @@ ${services.join("")}
       );
     }
     await runCmd(
-      `docker compose -f ${path}/docker-compose.yml down -d ${name}`,
+      `docker compose -f ${path}/docker-compose.yml down ${name}`,
       channel,
     );
   }
@@ -131,7 +147,7 @@ ${services.join("")}
     );
   }
 
-  async stop(name: string, path: string, channel: string) {
+  async stop(name: string, path: string, channel: string): Promise<void> {
     await runCmd(
       `docker compose -f ${path}/docker-compose.yml stop ${name}`,
       channel,
