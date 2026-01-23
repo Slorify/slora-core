@@ -27,7 +27,8 @@ export const getInstallationId = async (octokit: Octokit) => {
   const { data: installations } = await octokit.request(
     "GET /app/installations",
   );
-  return installations[0]?.id;
+  const installationId = installations[0]?.id;
+  return Number(installationId);
 };
 
 export const deleteGitAppInstallation = async (
@@ -37,4 +38,16 @@ export const deleteGitAppInstallation = async (
   await octokit.request("DELETE /app/installations/{installation_id}", {
     installation_id: installationId,
   });
+};
+
+export const getInstallationAccessToken = async (
+  octokit: Octokit,
+  installationId: number,
+) => {
+  const data = await (octokit as any).auth({
+    type: "installation",
+    installationId,
+  });
+
+  return data.token;
 };
