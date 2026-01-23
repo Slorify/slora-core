@@ -35,18 +35,15 @@ model User {
 }
 
 model GithubApp {
-  id             Int      @id @default(autoincrement())
-  name           String
-  url            String
-  slug           String
-  app_id         Int      @unique
-  private_key    String
-  owner_login    Json
-  client_id      String
-  client_secret  String
-  webhook_secret String
-  isInstalled    Boolean  @default(false)
-  createdAt      DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String
+  app_id      Int      @unique
+  private_key String
+  owner_login Json
+  cloneToken  String
+  isInstalled Boolean  @default(false)
+  createdAt   DateTime @default(now())
 
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
@@ -74,8 +71,8 @@ model Workspace {
 }
 
 enum Type {
-  Dockerfile
   Railpacks
+  Dockerfile
   Static
 }
 
@@ -85,17 +82,27 @@ model Instance {
   slug        String    @unique
   image       String
   type        Type      @default(Railpacks)
+  status      String    @default("stopped")
   gitUrl      String?
+  gitRepo     GitRepo?
   uploadPath  String?
   volume      String?
-  portId      Int?
-  ports       Port?
-  domains     Domain?
+  ports       Port[]
+  domains     Domain[]
   enviorement Json?
   workspaceId Int
   workspaces  Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+}
+
+model GitRepo {
+  id         Int      @id @default(autoincrement())
+  appId      Int
+  repo       String   @unique
+  branch     String?
+  instanceId Int      @unique
+  instance   Instance @relation(fields: [instanceId], references: [id], onDelete: Cascade)
 }
 
 model Domain {
@@ -104,15 +111,15 @@ model Domain {
   domain String
   port   Int    @default(80)
 
-  instanceId Int      @unique
+  instanceId Int
   instances  Instance @relation(fields: [instanceId], references: [id], onDelete: Cascade)
 }
 
 model Port {
   id       Int  @id @default(autoincrement())
-  host     Int?
+  host     Int? @unique
   internal Int
 
-  instanceId Int      @unique
+  instanceId Int
   instances  Instance @relation(fields: [instanceId], references: [id], onDelete: Cascade)
 }
