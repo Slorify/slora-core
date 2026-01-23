@@ -1,11 +1,9 @@
-import { NETWORKS, PATHS } from "../config/paths.js"
+import { NETWORKS, PATHS } from "../config/paths.js";
 import { composeService } from "./Compose.js";
 import { dockerService } from "./Docker.js";
-import { fileService } from "./FileSystem.js"
+import { fileService } from "./FileSystem.js";
 
-
-
-const proxyName = "proxy"
+const proxyName = "proxy";
 
 const composeProxy = `
 version: "3.9"
@@ -34,6 +32,8 @@ services:
       - "--api.insecure=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
+      - "--log.level=INFO"
+      - "--accesslog=true"
 
     labels:
       - "traefik.enable=true"
@@ -46,28 +46,38 @@ services:
       - ${NETWORKS.proxy}
 `;
 
-
 class Proxy {
-
   async install() {
     await fileService.createDir(PATHS.proxy);
-    await fileService.writeFile(`${PATHS.proxy}/docker-compose.yml`, composeProxy);
-    await dockerService.createNetwork(NETWORKS.proxy, proxyName)
-    await composeService.up(proxyName, `${PATHS.proxy}/`, proxyName)
+    await fileService.writeFile(
+      `${PATHS.proxy}/docker-compose.yml`,
+      composeProxy,
+    );
+    await dockerService.createNetwork(NETWORKS.proxy, `deploy-${proxyName}`);
+    await composeService.up(
+      proxyName,
+      `${PATHS.proxy}/`,
+      `deploy-${proxyName}`,
+    );
   }
 
   async start() {
-    await dockerService.start(proxyName, proxyName);
+    await composeService.up(
+      proxyName,
+      `${PATHS.proxy}/`,
+      `deploy-${proxyName}`,
+    );
+    await dockerService.start(proxyName, `start-${proxyName}`);
   }
 
   async stop() {
-    await dockerService.stop(proxyName, proxyName);
+    await dockerService.stop(proxyName, `stop-${proxyName}`);
+    await dockerService.remove(proxyName, `stop-${proxyName}`);
   }
 
   async logs() {
-    await dockerService.logs(proxyName, proxyName);
+    await dockerService.logs(proxyName, `logs-${proxyName}`);
   }
-
 }
 
-export const proxyService = new Proxy;
+export const proxyService = new Proxy();
