@@ -6,10 +6,14 @@ class FileSystem {
   }
   async deleteDir(path: string) {
     try {
-      return await fs.rmdir(path);
+      return await fs.rm(path, { recursive: true });
     } catch (err) {
       return null;
     }
+  }
+
+  async renameDir(path: string, newPath: string) {
+    return await fs.rename(path, newPath);
   }
 
   async readDir(path: string) {
