@@ -1,5 +1,5 @@
 {
-  "name": "ember-backend",
+  "name": "slora-core",
   "version": "1.0.0",
   "description": "This is a application for deploying scalable applications.",
   "keywords": [
@@ -8,13 +8,13 @@
     "ci/cd",
     "pipelines"
   ],
-  "homepage": "https://github.com/aislxflames/ember-labs#readme",
+  "homepage": "https://github.com/Slorify/slora-core/#readme",
   "bugs": {
-    "url": "https://github.com/aislxflames/ember-labs/issues"
+    "url": "https://github.com/Slorify/slora-core/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aislxflames/ember-labs.git"
+    "url": "git+https://github.com/Slorify/slora-core.git"
   },
   "license": "ISC",
   "author": "aislx",
@@ -49,7 +49,8 @@
     "express-session": "^1.18.2",
     "multer": "^2.0.2",
     "slugify": "^1.6.6",
-    "socket.io": "^4.8.3"
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
   },
   "devDependencies": {
     "@types/axios": "^0.14.4",
