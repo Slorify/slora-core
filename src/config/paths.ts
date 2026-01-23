@@ -13,5 +13,5 @@ export const PATHS = {
 };
 
 export const NETWORKS = {
-  proxy: "emberlabs-proxy"
-}
+  proxy: "slora-proxy",
+};
