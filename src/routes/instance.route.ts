@@ -12,6 +12,7 @@ import {
   syncComposeFile,
   updateInstance,
 } from "../controllers/instance.controller.js";
+import { getInstanceGit, updateGitUrl } from "../controllers/git.controller.js";
 
 const router: Router = Router({ mergeParams: true });
 
@@ -28,5 +29,8 @@ router.post("/:islug/start", startInstance);
 router.post("/:islug/restart", restartInstance);
 router.post("/:islug/stop", stopInstance);
 router.post("/:islug/logs", logsInstance);
+
+router.put("/:islug/gitUrl", updateGitUrl);
+router.get("/:islug/gitRepo", getInstanceGit);
 
 export { router as instanceRouter };
