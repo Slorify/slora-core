@@ -1,5 +1,6 @@
 import https from "https";
 import { getPublicIP } from "../utils/getPublicIp.js";
+import { randomUUID } from "crypto";
 
 https.get("https://api.ipify.org?format=json", (res) => {
   let data = "";
@@ -16,7 +17,19 @@ if (!APP_URL) {
   APP_URL = "http://" + publicIP;
 }
 
-export const GitOAuthMenifest = async (name: string) => {
+const currentTime = (d: Date) => {
+  const result =
+    String(d.getDate()).padStart(2, "0") +
+    "-" +
+    String(d.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    d.getFullYear();
+  return result;
+};
+
+export const GitOAuthMenifest = async () => {
+  const name =
+    "Slorify " + currentTime(new Date()) + "-" + randomUUID().slice(0, 5);
   const menifest = {
     name: name,
     url: APP_URL,
