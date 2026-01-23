@@ -11,6 +11,8 @@ import {
   generateUniqueInstanceSlug,
 } from "../handlers/instanceHandler.js";
 import { fileService } from "../services/FileSystem.js";
+import { prismaErrorHandler } from "../handlers/prismaErrorHandler.js";
+import { io } from "../server.js";
 
 export const getInstance = async (req: Request, res: Response) => {
   try {
@@ -106,8 +108,14 @@ export const deleteInstance = async (req: Request, res: Response) => {
     });
 
     await fileService.deleteDir(`${PATHS.workspaces}/${slug}/${islug}`);
-    await dockerService.stop(`${slug}`, `${slug}-${islug}`);
-    await dockerService.remove(`${slug}`, `${slug}-${islug}`);
+    await composeService.down(
+      `${islug}`,
+      `${PATHS.workspaces}/${slug}`,
+      `${slug}-${islug}`,
+    );
+    await dockerService.stop(`${islug}`, `${slug}-${islug}`);
+    await dockerService.remove(`${islug}`, `${slug}-${islug}`);
+    await dockerService.deleteImage(existingInstance.image, `${slug}-${islug}`);
     await composeFileSync(slug);
 
     res.status(201).json({
@@ -128,15 +136,55 @@ export const updateInstance = async (req: Request, res: Response) => {
     const slug = String(req.params.slug);
     const { name, image, volume, ports, domains, enviorement } = req.body;
 
+    const portsToUpdate = (ports ?? []).filter((p: any) => p.id);
+    const portsToCreate = (ports ?? []).filter((p: any) => !p.id);
+
+    const domainsToUpdate = (domains ?? []).filter((d: any) => d.id);
+    const domainsToCreate = (domains ?? []).filter((d: any) => !d.id);
+
     const updatedInstance = await prisma.instance.update({
-      where: { slug: islug, workspaces: { slug: slug } },
+      where: { slug: islug },
       data: {
-        name,
-        image,
-        volume,
-        domains: { update: domains },
-        ports: { update: ports },
-        enviorement,
+        ...(name !== undefined && { name }),
+        ...(image !== undefined && { image }),
+        ...(volume !== undefined && { volume }),
+        ...(enviorement !== undefined && { enviorement }),
+
+        /* ---------- PORTS ---------- */
+        ...(ports && {
+          ports: {
+            update: portsToUpdate.map((p: any) => ({
+              where: { id: p.id },
+              data: {
+                internal: p.internal,
+                host: p.host,
+              },
+            })),
+            create: portsToCreate.map((p: any) => ({
+              internal: p.internal,
+              host: p.host,
+            })),
+          },
+        }),
+
+        /* ---------- DOMAINS ---------- */
+        ...(domains && {
+          domains: {
+            update: domainsToUpdate.map((d: any) => ({
+              where: { id: d.id },
+              data: {
+                name: d.name,
+                domain: d.domain,
+                port: d.port ?? 80,
+              },
+            })),
+            create: domainsToCreate.map((d: any) => ({
+              name: d.name,
+              domain: d.domain,
+              port: d.port ?? 80,
+            })),
+          },
+        }),
       },
     });
 
@@ -148,6 +196,12 @@ export const updateInstance = async (req: Request, res: Response) => {
       data: updatedInstance,
     });
   } catch (err) {
+    const handled = prismaErrorHandler(err);
+
+    if (handled) {
+      return res.status(handled.status).json(handled.body);
+    }
+
     res
       .status(400)
       .json({ success: false, message: "Instance updation failed.", err });
@@ -212,18 +266,20 @@ export const deployInstance = async (req: Request, res: Response) => {
     }
 
     if (instance?.type === "Railpacks") {
-      await railpackService.install(`${slug}-${instance.slug}`);
+      await railpackService.install(`deploy-${slug}-${instance.slug}`);
       await railpackService.build(
         `${PATHS.workspaces}/${slug}/${instance.slug}`,
-        `${slug}-${instance.slug}`,
+        `deploy-${slug}-${instance.slug}`,
       );
     }
 
     await composeService.up(
       instance?.slug!,
-      `${PATHS.workspaces}/${slug}`,
+      `starting-${PATHS.workspaces}/${slug}`,
       `${slug}-${instance?.slug}`,
     );
+
+    dockerService.logs(instance?.slug!, `logs-${slug}-${instance?.slug}`);
 
     res.send({ success: true, message: "Instance deployment started." });
   } catch (err) {
@@ -241,12 +297,25 @@ export const startInstance = async (req: Request, res: Response) => {
         slug: String(islug),
       },
     });
+    if (!instance) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Instance not found." });
+    }
+
+    await composeService.up(
+      instance?.slug!,
+      `${PATHS.workspaces}/${slug}`,
+      `start-${slug}-${instance?.slug}`,
+    );
 
     await composeService.start(
       instance?.slug!,
       `${PATHS.workspaces}/${slug}`,
-      `${slug}-${instance?.slug}`,
+      `start-${slug}-${instance?.slug}`,
     );
+
+    dockerService.logs(instance?.slug!, `logs-${slug}-${instance?.slug}`);
 
     res.send({ success: true, message: "Instance started successfully." });
   } catch (err) {
@@ -268,8 +337,17 @@ export const stopInstance = async (req: Request, res: Response) => {
     await composeService.stop(
       instance?.slug!,
       `${PATHS.workspaces}/${slug}`,
-      `${slug}-${instance?.slug}`,
+      `stop-${slug}-${instance?.slug}`,
     );
+
+    await composeService.down(
+      instance?.slug!,
+      `${PATHS.workspaces}/${slug}`,
+      `stop-${slug}-${instance?.slug}`,
+    );
+
+    dockerService.logs(instance?.slug!, `logs-${slug}-${instance?.slug}`);
+
     res.send({ success: true, message: "Instance stopped successfully." });
   } catch (err) {
     res
@@ -286,11 +364,26 @@ export const restartInstance = async (req: Request, res: Response) => {
         slug: String(islug),
       },
     });
+
+    io.emit(`status-${slug}-${instance?.slug}`, {
+      status: "restarting",
+      at: Date.now(),
+    });
+
     await composeService.down(
       instance?.slug!,
       `${PATHS.workspaces}/${slug}`,
-      `${slug}-${instance?.slug}`,
+      `restart-${slug}-${instance?.slug}`,
     );
+
+    await composeService.up(
+      instance?.slug!,
+      `${PATHS.workspaces}/${slug}`,
+      `restart-${slug}-${instance?.slug}`,
+    );
+
+    dockerService.logs(instance?.slug!, `logs-${slug}-${instance?.slug}`);
+
     res.send({ success: true, message: "Instance restarted successfully." });
   } catch (err) {
     res
@@ -308,7 +401,7 @@ export const logsInstance = async (req: Request, res: Response) => {
       },
     });
 
-    dockerService.logs(instance?.slug!, `${slug}-${instance?.slug}`);
+    dockerService.logs(instance?.slug!, `logs-${slug}-${instance?.slug}`);
 
     res.send({ success: true, message: "Instance logs fetched successfully." });
   } catch (err) {
