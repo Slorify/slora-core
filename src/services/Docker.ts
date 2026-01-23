@@ -21,12 +21,19 @@ class Docker {
     await runCmd(`docker rm ${name}`, channel);
   }
 
+  async deleteImage(image: string, channel: string): Promise<void> {
+    await runCmd(`docker rmi ${image}`, channel);
+  }
+
   async createNetwork(name: string, channel: string) {
     await runCmd(`docker network create ${name}`, channel);
   }
 
   async logs(name: string, channel: string) {
-    await runCmd(`docker logs -f ${name}`, channel);
+    await runCmd(
+      `docker ps -a -q -f name=^${name}$ | grep -q . && docker logs -f ${name}`,
+      channel,
+    );
   }
 }
 
