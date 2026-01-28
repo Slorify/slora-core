@@ -20,7 +20,10 @@ export function startInternalStatusClient() {
     const match = event.match(/^(deploy|start|logs|restart|stop)-(.+)$/);
     if (!match) return;
 
-    const [, phase, service] = match;
+    const phase = match[1];
+    const service = match[2];
+    
+    if (!phase || !service) return;
 
     updateStatusFromPhase(service, phase);
   });

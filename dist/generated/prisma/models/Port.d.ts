@@ -183,14 +183,14 @@ export type PortOrderByWithRelationInput = {
 };
 export type PortWhereUniqueInput = Prisma.AtLeast<{
     id?: number;
-    instanceId?: number;
+    host?: number;
     AND?: Prisma.PortWhereInput | Prisma.PortWhereInput[];
     OR?: Prisma.PortWhereInput[];
     NOT?: Prisma.PortWhereInput | Prisma.PortWhereInput[];
-    host?: Prisma.IntNullableFilter<"Port"> | number | null;
     internal?: Prisma.IntFilter<"Port"> | number;
+    instanceId?: Prisma.IntFilter<"Port"> | number;
     instances?: Prisma.XOR<Prisma.InstanceScalarRelationFilter, Prisma.InstanceWhereInput>;
-}, "id" | "instanceId">;
+}, "id" | "host">;
 export type PortOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
     host?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -249,9 +249,13 @@ export type PortUncheckedUpdateManyInput = {
     internal?: Prisma.IntFieldUpdateOperationsInput | number;
     instanceId?: Prisma.IntFieldUpdateOperationsInput | number;
 };
-export type PortNullableScalarRelationFilter = {
-    is?: Prisma.PortWhereInput | null;
-    isNot?: Prisma.PortWhereInput | null;
+export type PortListRelationFilter = {
+    every?: Prisma.PortWhereInput;
+    some?: Prisma.PortWhereInput;
+    none?: Prisma.PortWhereInput;
+};
+export type PortOrderByRelationAggregateInput = {
+    _count?: Prisma.SortOrder;
 };
 export type PortCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -283,33 +287,50 @@ export type PortSumOrderByAggregateInput = {
     internal?: Prisma.SortOrder;
     instanceId?: Prisma.SortOrder;
 };
-export type PortCreateNestedOneWithoutInstancesInput = {
-    create?: Prisma.XOR<Prisma.PortCreateWithoutInstancesInput, Prisma.PortUncheckedCreateWithoutInstancesInput>;
-    connectOrCreate?: Prisma.PortCreateOrConnectWithoutInstancesInput;
-    connect?: Prisma.PortWhereUniqueInput;
+export type PortCreateNestedManyWithoutInstancesInput = {
+    create?: Prisma.XOR<Prisma.PortCreateWithoutInstancesInput, Prisma.PortUncheckedCreateWithoutInstancesInput> | Prisma.PortCreateWithoutInstancesInput[] | Prisma.PortUncheckedCreateWithoutInstancesInput[];
+    connectOrCreate?: Prisma.PortCreateOrConnectWithoutInstancesInput | Prisma.PortCreateOrConnectWithoutInstancesInput[];
+    createMany?: Prisma.PortCreateManyInstancesInputEnvelope;
+    connect?: Prisma.PortWhereUniqueInput | Prisma.PortWhereUniqueInput[];
 };
-export type PortUncheckedCreateNestedOneWithoutInstancesInput = {
-    create?: Prisma.XOR<Prisma.PortCreateWithoutInstancesInput, Prisma.PortUncheckedCreateWithoutInstancesInput>;
-    connectOrCreate?: Prisma.PortCreateOrConnectWithoutInstancesInput;
-    connect?: Prisma.PortWhereUniqueInput;
+export type PortUncheckedCreateNestedManyWithoutInstancesInput = {
+    create?: Prisma.XOR<Prisma.PortCreateWithoutInstancesInput, Prisma.PortUncheckedCreateWithoutInstancesInput> | Prisma.PortCreateWithoutInstancesInput[] | Prisma.PortUncheckedCreateWithoutInstancesInput[];
+    connectOrCreate?: Prisma.PortCreateOrConnectWithoutInstancesInput | Prisma.PortCreateOrConnectWithoutInstancesInput[];
+    createMany?: Prisma.PortCreateManyInstancesInputEnvelope;
+    connect?: Prisma.PortWhereUniqueInput | Prisma.PortWhereUniqueInput[];
 };
-export type PortUpdateOneWithoutInstancesNestedInput = {
-    create?: Prisma.XOR<Prisma.PortCreateWithoutInstancesInput, Prisma.PortUncheckedCreateWithoutInstancesInput>;
-    connectOrCreate?: Prisma.PortCreateOrConnectWithoutInstancesInput;
-    upsert?: Prisma.PortUpsertWithoutInstancesInput;
-    disconnect?: Prisma.PortWhereInput | boolean;
-    delete?: Prisma.PortWhereInput | boolean;
-    connect?: Prisma.PortWhereUniqueInput;
-    update?: Prisma.XOR<Prisma.XOR<Prisma.PortUpdateToOneWithWhereWithoutInstancesInput, Prisma.PortUpdateWithoutInstancesInput>, Prisma.PortUncheckedUpdateWithoutInstancesInput>;
+export type PortUpdateManyWithoutInstancesNestedInput = {
+    create?: Prisma.XOR<Prisma.PortCreateWithoutInstancesInput, Prisma.PortUncheckedCreateWithoutInstancesInput> | Prisma.PortCreateWithoutInstancesInput[] | Prisma.PortUncheckedCreateWithoutInstancesInput[];
+    connectOrCreate?: Prisma.PortCreateOrConnectWithoutInstancesInput | Prisma.PortCreateOrConnectWithoutInstancesInput[];
+    upsert?: Prisma.PortUpsertWithWhereUniqueWithoutInstancesInput | Prisma.PortUpsertWithWhereUniqueWithoutInstancesInput[];
+    createMany?: Prisma.PortCreateManyInstancesInputEnvelope;
+    set?: Prisma.PortWhereUniqueInput | Prisma.PortWhereUniqueInput[];
+    disconnect?: Prisma.PortWhereUniqueInput | Prisma.PortWhereUniqueInput[];
+    delete?: Prisma.PortWhereUniqueInput | Prisma.PortWhereUniqueInput[];
+    connect?: Prisma.PortWhereUniqueInput | Prisma.PortWhereUniqueInput[];
+    update?: Prisma.PortUpdateWithWhereUniqueWithoutInstancesInput | Prisma.PortUpdateWithWhereUniqueWithoutInstancesInput[];
+    updateMany?: Prisma.PortUpdateManyWithWhereWithoutInstancesInput | Prisma.PortUpdateManyWithWhereWithoutInstancesInput[];
+    deleteMany?: Prisma.PortScalarWhereInput | Prisma.PortScalarWhereInput[];
 };
-export type PortUncheckedUpdateOneWithoutInstancesNestedInput = {
-    create?: Prisma.XOR<Prisma.PortCreateWithoutInstancesInput, Prisma.PortUncheckedCreateWithoutInstancesInput>;
-    connectOrCreate?: Prisma.PortCreateOrConnectWithoutInstancesInput;
-    upsert?: Prisma.PortUpsertWithoutInstancesInput;
-    disconnect?: Prisma.PortWhereInput | boolean;
-    delete?: Prisma.PortWhereInput | boolean;
-    connect?: Prisma.PortWhereUniqueInput;
-    update?: Prisma.XOR<Prisma.XOR<Prisma.PortUpdateToOneWithWhereWithoutInstancesInput, Prisma.PortUpdateWithoutInstancesInput>, Prisma.PortUncheckedUpdateWithoutInstancesInput>;
+export type PortUncheckedUpdateManyWithoutInstancesNestedInput = {
+    create?: Prisma.XOR<Prisma.PortCreateWithoutInstancesInput, Prisma.PortUncheckedCreateWithoutInstancesInput> | Prisma.PortCreateWithoutInstancesInput[] | Prisma.PortUncheckedCreateWithoutInstancesInput[];
+    connectOrCreate?: Prisma.PortCreateOrConnectWithoutInstancesInput | Prisma.PortCreateOrConnectWithoutInstancesInput[];
+    upsert?: Prisma.PortUpsertWithWhereUniqueWithoutInstancesInput | Prisma.PortUpsertWithWhereUniqueWithoutInstancesInput[];
+    createMany?: Prisma.PortCreateManyInstancesInputEnvelope;
+    set?: Prisma.PortWhereUniqueInput | Prisma.PortWhereUniqueInput[];
+    disconnect?: Prisma.PortWhereUniqueInput | Prisma.PortWhereUniqueInput[];
+    delete?: Prisma.PortWhereUniqueInput | Prisma.PortWhereUniqueInput[];
+    connect?: Prisma.PortWhereUniqueInput | Prisma.PortWhereUniqueInput[];
+    update?: Prisma.PortUpdateWithWhereUniqueWithoutInstancesInput | Prisma.PortUpdateWithWhereUniqueWithoutInstancesInput[];
+    updateMany?: Prisma.PortUpdateManyWithWhereWithoutInstancesInput | Prisma.PortUpdateManyWithWhereWithoutInstancesInput[];
+    deleteMany?: Prisma.PortScalarWhereInput | Prisma.PortScalarWhereInput[];
+};
+export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null;
+    increment?: number;
+    decrement?: number;
+    multiply?: number;
+    divide?: number;
 };
 export type PortCreateWithoutInstancesInput = {
     host?: number | null;
@@ -324,20 +345,46 @@ export type PortCreateOrConnectWithoutInstancesInput = {
     where: Prisma.PortWhereUniqueInput;
     create: Prisma.XOR<Prisma.PortCreateWithoutInstancesInput, Prisma.PortUncheckedCreateWithoutInstancesInput>;
 };
-export type PortUpsertWithoutInstancesInput = {
+export type PortCreateManyInstancesInputEnvelope = {
+    data: Prisma.PortCreateManyInstancesInput | Prisma.PortCreateManyInstancesInput[];
+};
+export type PortUpsertWithWhereUniqueWithoutInstancesInput = {
+    where: Prisma.PortWhereUniqueInput;
     update: Prisma.XOR<Prisma.PortUpdateWithoutInstancesInput, Prisma.PortUncheckedUpdateWithoutInstancesInput>;
     create: Prisma.XOR<Prisma.PortCreateWithoutInstancesInput, Prisma.PortUncheckedCreateWithoutInstancesInput>;
-    where?: Prisma.PortWhereInput;
 };
-export type PortUpdateToOneWithWhereWithoutInstancesInput = {
-    where?: Prisma.PortWhereInput;
+export type PortUpdateWithWhereUniqueWithoutInstancesInput = {
+    where: Prisma.PortWhereUniqueInput;
     data: Prisma.XOR<Prisma.PortUpdateWithoutInstancesInput, Prisma.PortUncheckedUpdateWithoutInstancesInput>;
+};
+export type PortUpdateManyWithWhereWithoutInstancesInput = {
+    where: Prisma.PortScalarWhereInput;
+    data: Prisma.XOR<Prisma.PortUpdateManyMutationInput, Prisma.PortUncheckedUpdateManyWithoutInstancesInput>;
+};
+export type PortScalarWhereInput = {
+    AND?: Prisma.PortScalarWhereInput | Prisma.PortScalarWhereInput[];
+    OR?: Prisma.PortScalarWhereInput[];
+    NOT?: Prisma.PortScalarWhereInput | Prisma.PortScalarWhereInput[];
+    id?: Prisma.IntFilter<"Port"> | number;
+    host?: Prisma.IntNullableFilter<"Port"> | number | null;
+    internal?: Prisma.IntFilter<"Port"> | number;
+    instanceId?: Prisma.IntFilter<"Port"> | number;
+};
+export type PortCreateManyInstancesInput = {
+    id?: number;
+    host?: number | null;
+    internal: number;
 };
 export type PortUpdateWithoutInstancesInput = {
     host?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     internal?: Prisma.IntFieldUpdateOperationsInput | number;
 };
 export type PortUncheckedUpdateWithoutInstancesInput = {
+    id?: Prisma.IntFieldUpdateOperationsInput | number;
+    host?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+    internal?: Prisma.IntFieldUpdateOperationsInput | number;
+};
+export type PortUncheckedUpdateManyWithoutInstancesInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
     host?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     internal?: Prisma.IntFieldUpdateOperationsInput | number;

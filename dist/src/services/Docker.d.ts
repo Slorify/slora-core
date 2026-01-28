@@ -4,6 +4,7 @@ declare class Docker {
     start(name: string, channel: string): Promise<void>;
     stop(name: string, channel: string): Promise<void>;
     remove(name: string, channel: string): Promise<void>;
+    deleteImage(image: string, channel: string): Promise<void>;
     createNetwork(name: string, channel: string): Promise<void>;
     logs(name: string, channel: string): Promise<void>;
 }

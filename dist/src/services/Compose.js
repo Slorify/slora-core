@@ -2,44 +2,49 @@ import fs from "fs/promises";
 import { NETWORKS, PATHS } from "../config/paths.js";
 import { runCmd } from "../utils/runCmd.js";
 import { fileService } from "./FileSystem.js";
-function generateTraefikLabels(instanceName, domain, port, network = "emberlabs-proxy") {
-    return [
+const isSwarmMode = process.env.SWARM_MODE === "true";
+function generateTraefikLabels(instanceName, domains, port, network = "emberlabs-proxy") {
+    const labels = [
         "traefik.enable=true",
         `traefik.docker.network=${network}`,
-        // HTTP
-        `traefik.http.routers.${instanceName}-http.rule=Host(\`${domain}\`)`,
-        `traefik.http.routers.${instanceName}-http.entrypoints=web`,
-        `traefik.http.routers.${instanceName}-http.service=${instanceName}-service`,
-        // HTTPS
-        `traefik.http.routers.${instanceName}-https.rule=Host(\`${domain}\`)`,
-        `traefik.http.routers.${instanceName}-https.entrypoints=websecure`,
-        `traefik.http.routers.${instanceName}-https.tls=true`,
-        `traefik.http.routers.${instanceName}-https.tls.certresolver=myresolver`,
-        `traefik.http.routers.${instanceName}-https.service=${instanceName}-service`,
-        // Service port
-        `traefik.http.services.${instanceName}-service.loadbalancer.server.port=${port}`,
     ];
+    domains.forEach((d, index) => {
+        const routerId = `${instanceName}-${index}`;
+        labels.push(
+        // HTTP
+        `traefik.http.routers.${routerId}-http.rule=Host(\`${d.domain}\`)`, `traefik.http.routers.${routerId}-http.entrypoints=web`, `traefik.http.routers.${routerId}-http.service=${routerId}-service`, 
+        // HTTPS
+        `traefik.http.routers.${routerId}-https.rule=Host(\`${d.domain}\`)`, `traefik.http.routers.${routerId}-https.entrypoints=websecure`, `traefik.http.routers.${routerId}-https.tls=true`, `traefik.http.routers.${routerId}-https.tls.certresolver=myresolver`, `traefik.http.routers.${routerId}-https.service=${routerId}-service`, 
+        // Service port
+        `traefik.http.services.${routerId}-service.loadbalancer.server.port=${port}`);
+    });
+    return labels;
 }
 class Compose {
     async writeFile(name, instances) {
         const composeDir = `${PATHS.workspaces}/${name}`;
         await fileService.createDir(composeDir);
         const services = instances.map((instance) => {
-            /* ---------- ENV (ARRAY STYLE) ---------- */
+            /* ---------- ENV ---------- */
             const environments = instance.enviorement && typeof instance.enviorement === "object"
                 ? Object.entries(instance.enviorement)
                     .map(([key, value]) => `        - ${key}=${String(value)}`)
                     .join("\n")
                 : "";
-            /* ---------- VOLUME ---------- */
+            /* ---------- VOLUMES ---------- */
             const volumes = instance.volume ? `      - ${instance.volume}` : "";
-            /* ---------- PORT ---------- */
-            const ports = instance.ports
-                ? `      - "${instance.ports.host ? instance.ports.host + ":" : ""}${instance.ports.internal}"`
+            /* ---------- PORTS (MULTIPLE) ---------- */
+            const ports = Array.isArray(instance.ports) && instance.ports.length > 0
+                ? instance.ports
+                    .map((p) => `      - "${p.host ? `${p.host}:` : ""}${p.internal}"`)
+                    .join("\n")
                 : "";
             /* ---------- TRAEFIK LABELS ---------- */
-            const labels = instance.domains && instance.ports
-                ? generateTraefikLabels(instance.slug, instance.domains.domain, instance.domains.port)
+            const labels = Array.isArray(instance.domains) &&
+                instance.domains.length > 0 &&
+                Array.isArray(instance.ports) &&
+                instance.ports.length > 0
+                ? generateTraefikLabels(instance.slug, instance.domains, instance.ports[0].internal)
                     .map((l) => `      - "${l}"`)
                     .join("\n")
                 : "";
@@ -48,10 +53,10 @@ class Compose {
       image: ${instance.image}
       container_name: ${instance.slug}
       restart: unless-stopped
-  ${environments ? `    environment:\n${environments}` : ""}
-  ${volumes ? `    volumes:\n${volumes}` : ""}
-  ${ports ? `    ports:\n${ports}` : ""}
-  ${labels ? `    labels:\n${labels}` : ""}
+${environments ? `      environment:\n${environments}` : ""}
+${volumes ? `      volumes:\n${volumes}` : ""}
+${ports ? `      ports:\n${ports}` : ""}
+${labels ? `      labels:\n${labels}` : ""}
       networks:
         - ${NETWORKS.proxy}
 `;
@@ -66,22 +71,50 @@ ${services.join("")}
         await fs.writeFile(`${composeDir}/docker-compose.yml`, composeYml.trim(), "utf8");
     }
     async up(name, path, channel) {
-        if (!name) {
-            await runCmd(`docker compose -f ${path}/docker-compose.yml up`, channel);
+        if (isSwarmMode) {
+            const stackName = path.split('/').pop() || "app";
+            await runCmd(`docker stack deploy -c ${path}/docker-compose.yml ${stackName}`, channel);
         }
-        await runCmd(`docker compose -f ${path}/docker-compose.yml up -d ${name}`, channel);
+        else {
+            if (!name) {
+                await runCmd(`docker compose -f ${path}/docker-compose.yml up`, channel);
+            }
+            else {
+                await runCmd(`docker compose -f ${path}/docker-compose.yml up -d ${name}`, channel);
+            }
+        }
     }
     async down(name, path, channel) {
-        if (!name) {
-            await runCmd(`docker compose -f ${path}/docker-compose.yml down`, channel);
+        if (isSwarmMode) {
+            const stackName = path.split('/').pop() || "app";
+            await runCmd(`docker stack rm ${stackName}`, channel);
         }
-        await runCmd(`docker compose -f ${path}/docker-compose.yml down -d ${name}`, channel);
+        else {
+            if (!name) {
+                await runCmd(`docker compose -f ${path}/docker-compose.yml down`, channel);
+            }
+            else {
+                await runCmd(`docker compose -f ${path}/docker-compose.yml down ${name}`, channel);
+            }
+        }
     }
     async start(name, path, channel) {
-        await runCmd(`docker compose -f ${path}/docker-compose.yml start ${name}`, channel);
+        if (isSwarmMode) {
+            const stackName = path.split('/').pop() || "app";
+            await runCmd(`docker service scale ${stackName}_${name}=1`, channel);
+        }
+        else {
+            await runCmd(`docker compose -f ${path}/docker-compose.yml start ${name}`, channel);
+        }
     }
     async stop(name, path, channel) {
-        await runCmd(`docker compose -f ${path}/docker-compose.yml stop ${name}`, channel);
+        if (isSwarmMode) {
+            const stackName = path.split('/').pop() || "app";
+            await runCmd(`docker service scale ${stackName}_${name}=0`, channel);
+        }
+        else {
+            await runCmd(`docker compose -f ${path}/docker-compose.yml stop ${name}`, channel);
+        }
     }
 }
 export const composeService = new Compose();

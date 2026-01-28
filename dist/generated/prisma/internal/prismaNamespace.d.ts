@@ -237,6 +237,7 @@ export declare const ModelName: {
     readonly Profile: "Profile";
     readonly Workspace: "Workspace";
     readonly Instance: "Instance";
+    readonly GitRepo: "GitRepo";
     readonly Domain: "Domain";
     readonly Port: "Port";
 };
@@ -251,7 +252,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         omit: GlobalOmitOptions;
     };
     meta: {
-        modelProps: "session" | "user" | "githubApp" | "profile" | "workspace" | "instance" | "domain" | "port";
+        modelProps: "session" | "user" | "githubApp" | "profile" | "workspace" | "instance" | "gitRepo" | "domain" | "port";
         txIsolationLevel: TransactionIsolationLevel;
     };
     model: {
@@ -699,6 +700,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
                 };
             };
         };
+        GitRepo: {
+            payload: Prisma.$GitRepoPayload<ExtArgs>;
+            fields: Prisma.GitRepoFieldRefs;
+            operations: {
+                findUnique: {
+                    args: Prisma.GitRepoFindUniqueArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$GitRepoPayload> | null;
+                };
+                findUniqueOrThrow: {
+                    args: Prisma.GitRepoFindUniqueOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$GitRepoPayload>;
+                };
+                findFirst: {
+                    args: Prisma.GitRepoFindFirstArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$GitRepoPayload> | null;
+                };
+                findFirstOrThrow: {
+                    args: Prisma.GitRepoFindFirstOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$GitRepoPayload>;
+                };
+                findMany: {
+                    args: Prisma.GitRepoFindManyArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$GitRepoPayload>[];
+                };
+                create: {
+                    args: Prisma.GitRepoCreateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$GitRepoPayload>;
+                };
+                createMany: {
+                    args: Prisma.GitRepoCreateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                createManyAndReturn: {
+                    args: Prisma.GitRepoCreateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$GitRepoPayload>[];
+                };
+                delete: {
+                    args: Prisma.GitRepoDeleteArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$GitRepoPayload>;
+                };
+                update: {
+                    args: Prisma.GitRepoUpdateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$GitRepoPayload>;
+                };
+                deleteMany: {
+                    args: Prisma.GitRepoDeleteManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateMany: {
+                    args: Prisma.GitRepoUpdateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateManyAndReturn: {
+                    args: Prisma.GitRepoUpdateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$GitRepoPayload>[];
+                };
+                upsert: {
+                    args: Prisma.GitRepoUpsertArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$GitRepoPayload>;
+                };
+                aggregate: {
+                    args: Prisma.GitRepoAggregateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.AggregateGitRepo>;
+                };
+                groupBy: {
+                    args: Prisma.GitRepoGroupByArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.GitRepoGroupByOutputType>[];
+                };
+                count: {
+                    args: Prisma.GitRepoCountArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.GitRepoCountAggregateOutputType> | number;
+                };
+            };
+        };
         Domain: {
             payload: Prisma.$DomainPayload<ExtArgs>;
             fields: Prisma.DomainFieldRefs;
@@ -931,16 +1006,24 @@ export declare const InstanceScalarFieldEnum: {
     readonly slug: "slug";
     readonly image: "image";
     readonly type: "type";
+    readonly status: "status";
     readonly gitUrl: "gitUrl";
     readonly uploadPath: "uploadPath";
     readonly volume: "volume";
-    readonly portId: "portId";
     readonly enviorement: "enviorement";
     readonly workspaceId: "workspaceId";
     readonly createdAt: "createdAt";
     readonly updatedAt: "updatedAt";
 };
 export type InstanceScalarFieldEnum = (typeof InstanceScalarFieldEnum)[keyof typeof InstanceScalarFieldEnum];
+export declare const GitRepoScalarFieldEnum: {
+    readonly id: "id";
+    readonly appId: "appId";
+    readonly repo: "repo";
+    readonly branch: "branch";
+    readonly instanceId: "instanceId";
+};
+export type GitRepoScalarFieldEnum = (typeof GitRepoScalarFieldEnum)[keyof typeof GitRepoScalarFieldEnum];
 export declare const DomainScalarFieldEnum: {
     readonly id: "id";
     readonly name: "name";
@@ -1125,6 +1208,7 @@ export type GlobalOmitConfig = {
     profile?: Prisma.ProfileOmit;
     workspace?: Prisma.WorkspaceOmit;
     instance?: Prisma.InstanceOmit;
+    gitRepo?: Prisma.GitRepoOmit;
     domain?: Prisma.DomainOmit;
     port?: Prisma.PortOmit;
 };

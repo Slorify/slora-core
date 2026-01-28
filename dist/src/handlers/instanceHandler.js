@@ -22,7 +22,7 @@ const checkWorkspaceExists = async (slug) => {
     return !!workspace;
 };
 async function generateUniqueInstanceSlug(name) {
-    const baseSlug = slugify(name);
+    const baseSlug = slugify(name, { lower: true });
     let slug = baseSlug;
     let counter = 1;
     while (true) {

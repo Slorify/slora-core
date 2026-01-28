@@ -178,6 +178,17 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
+     * `prisma.gitRepo`: Exposes CRUD operations for the **GitRepo** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more GitRepos
+      * const gitRepos = await prisma.gitRepo.findMany()
+      * ```
+      */
+    get gitRepo(): Prisma.GitRepoDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
      * `prisma.domain`: Exposes CRUD operations for the **Domain** model.
       * Example usage:
       * ```ts

@@ -2,6 +2,8 @@ import fs from "fs/promises";
 import { NETWORKS, PATHS } from "../config/paths.js";
 import { runCmd } from "../utils/runCmd.js";
 import { fileService } from "./FileSystem.js";
+
+const isSwarmMode = process.env.SWARM_MODE === "true";
 function generateTraefikLabels(
   instanceName: string,
   domains: { domain: string }[],
@@ -114,13 +116,25 @@ ${services.join("")}
     path: string,
     channel: string,
   ): Promise<void> {
-    if (!name) {
-      await runCmd(`docker compose -f ${path}/docker-compose.yml up`, channel);
+    if (isSwarmMode) {
+      const stackName = path.split("/").pop() || "app";
+      await runCmd(
+        `docker stack deploy -d -c ${path}/docker-compose.yml ${stackName}`,
+        channel,
+      );
+    } else {
+      if (!name) {
+        await runCmd(
+          `docker compose -f ${path}/docker-compose.yml up`,
+          channel,
+        );
+      } else {
+        await runCmd(
+          `docker compose -f ${path}/docker-compose.yml up -d ${name}`,
+          channel,
+        );
+      }
     }
-    await runCmd(
-      `docker compose -f ${path}/docker-compose.yml up -d ${name}`,
-      channel,
-    );
   }
 
   async down(
@@ -128,30 +142,46 @@ ${services.join("")}
     path: string,
     channel: string,
   ): Promise<void> {
-    if (!name) {
-      await runCmd(
-        `docker compose -f ${path}/docker-compose.yml down`,
-        channel,
-      );
+    if (isSwarmMode) {
+      const stackName = path.split("/").pop() || "app";
+      await runCmd(`docker stack rm ${stackName}`, channel);
+    } else {
+      if (!name) {
+        await runCmd(
+          `docker compose -f ${path}/docker-compose.yml down`,
+          channel,
+        );
+      } else {
+        await runCmd(
+          `docker compose -f ${path}/docker-compose.yml down ${name}`,
+          channel,
+        );
+      }
     }
-    await runCmd(
-      `docker compose -f ${path}/docker-compose.yml down ${name}`,
-      channel,
-    );
   }
 
   async start(name: string, path: string, channel: string): Promise<void> {
-    await runCmd(
-      `docker compose -f ${path}/docker-compose.yml start ${name}`,
-      channel,
-    );
+    if (isSwarmMode) {
+      const stackName = path.split("/").pop() || "app";
+      await runCmd(`docker service scale ${stackName}_${name}=1`, channel);
+    } else {
+      await runCmd(
+        `docker compose -f ${path}/docker-compose.yml start ${name}`,
+        channel,
+      );
+    }
   }
 
   async stop(name: string, path: string, channel: string): Promise<void> {
-    await runCmd(
-      `docker compose -f ${path}/docker-compose.yml stop ${name}`,
-      channel,
-    );
+    if (isSwarmMode) {
+      const stackName = path.split("/").pop() || "app";
+      await runCmd(`docker service scale ${stackName}_${name}=0`, channel);
+    } else {
+      await runCmd(
+        `docker compose -f ${path}/docker-compose.yml stop ${name}`,
+        channel,
+      );
+    }
   }
 }
 

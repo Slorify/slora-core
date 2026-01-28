@@ -15,12 +15,10 @@ export type AggregateInstance = {
 };
 export type InstanceAvgAggregateOutputType = {
     id: number | null;
-    portId: number | null;
     workspaceId: number | null;
 };
 export type InstanceSumAggregateOutputType = {
     id: number | null;
-    portId: number | null;
     workspaceId: number | null;
 };
 export type InstanceMinAggregateOutputType = {
@@ -29,10 +27,10 @@ export type InstanceMinAggregateOutputType = {
     slug: string | null;
     image: string | null;
     type: $Enums.Type | null;
+    status: string | null;
     gitUrl: string | null;
     uploadPath: string | null;
     volume: string | null;
-    portId: number | null;
     workspaceId: number | null;
     createdAt: Date | null;
     updatedAt: Date | null;
@@ -43,10 +41,10 @@ export type InstanceMaxAggregateOutputType = {
     slug: string | null;
     image: string | null;
     type: $Enums.Type | null;
+    status: string | null;
     gitUrl: string | null;
     uploadPath: string | null;
     volume: string | null;
-    portId: number | null;
     workspaceId: number | null;
     createdAt: Date | null;
     updatedAt: Date | null;
@@ -57,10 +55,10 @@ export type InstanceCountAggregateOutputType = {
     slug: number;
     image: number;
     type: number;
+    status: number;
     gitUrl: number;
     uploadPath: number;
     volume: number;
-    portId: number;
     enviorement: number;
     workspaceId: number;
     createdAt: number;
@@ -69,12 +67,10 @@ export type InstanceCountAggregateOutputType = {
 };
 export type InstanceAvgAggregateInputType = {
     id?: true;
-    portId?: true;
     workspaceId?: true;
 };
 export type InstanceSumAggregateInputType = {
     id?: true;
-    portId?: true;
     workspaceId?: true;
 };
 export type InstanceMinAggregateInputType = {
@@ -83,10 +79,10 @@ export type InstanceMinAggregateInputType = {
     slug?: true;
     image?: true;
     type?: true;
+    status?: true;
     gitUrl?: true;
     uploadPath?: true;
     volume?: true;
-    portId?: true;
     workspaceId?: true;
     createdAt?: true;
     updatedAt?: true;
@@ -97,10 +93,10 @@ export type InstanceMaxAggregateInputType = {
     slug?: true;
     image?: true;
     type?: true;
+    status?: true;
     gitUrl?: true;
     uploadPath?: true;
     volume?: true;
-    portId?: true;
     workspaceId?: true;
     createdAt?: true;
     updatedAt?: true;
@@ -111,10 +107,10 @@ export type InstanceCountAggregateInputType = {
     slug?: true;
     image?: true;
     type?: true;
+    status?: true;
     gitUrl?: true;
     uploadPath?: true;
     volume?: true;
-    portId?: true;
     enviorement?: true;
     workspaceId?: true;
     createdAt?: true;
@@ -203,10 +199,10 @@ export type InstanceGroupByOutputType = {
     slug: string;
     image: string;
     type: $Enums.Type;
+    status: string;
     gitUrl: string | null;
     uploadPath: string | null;
     volume: string | null;
-    portId: number | null;
     enviorement: runtime.JsonValue | null;
     workspaceId: number;
     createdAt: Date;
@@ -229,16 +225,17 @@ export type InstanceWhereInput = {
     slug?: Prisma.StringFilter<"Instance"> | string;
     image?: Prisma.StringFilter<"Instance"> | string;
     type?: Prisma.EnumTypeFilter<"Instance"> | $Enums.Type;
+    status?: Prisma.StringFilter<"Instance"> | string;
     gitUrl?: Prisma.StringNullableFilter<"Instance"> | string | null;
     uploadPath?: Prisma.StringNullableFilter<"Instance"> | string | null;
     volume?: Prisma.StringNullableFilter<"Instance"> | string | null;
-    portId?: Prisma.IntNullableFilter<"Instance"> | number | null;
     enviorement?: Prisma.JsonNullableFilter<"Instance">;
     workspaceId?: Prisma.IntFilter<"Instance"> | number;
     createdAt?: Prisma.DateTimeFilter<"Instance"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Instance"> | Date | string;
-    ports?: Prisma.XOR<Prisma.PortNullableScalarRelationFilter, Prisma.PortWhereInput> | null;
-    domains?: Prisma.XOR<Prisma.DomainNullableScalarRelationFilter, Prisma.DomainWhereInput> | null;
+    gitRepo?: Prisma.XOR<Prisma.GitRepoNullableScalarRelationFilter, Prisma.GitRepoWhereInput> | null;
+    ports?: Prisma.PortListRelationFilter;
+    domains?: Prisma.DomainListRelationFilter;
     workspaces?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>;
 };
 export type InstanceOrderByWithRelationInput = {
@@ -247,16 +244,17 @@ export type InstanceOrderByWithRelationInput = {
     slug?: Prisma.SortOrder;
     image?: Prisma.SortOrder;
     type?: Prisma.SortOrder;
+    status?: Prisma.SortOrder;
     gitUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
     uploadPath?: Prisma.SortOrderInput | Prisma.SortOrder;
     volume?: Prisma.SortOrderInput | Prisma.SortOrder;
-    portId?: Prisma.SortOrderInput | Prisma.SortOrder;
     enviorement?: Prisma.SortOrderInput | Prisma.SortOrder;
     workspaceId?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
-    ports?: Prisma.PortOrderByWithRelationInput;
-    domains?: Prisma.DomainOrderByWithRelationInput;
+    gitRepo?: Prisma.GitRepoOrderByWithRelationInput;
+    ports?: Prisma.PortOrderByRelationAggregateInput;
+    domains?: Prisma.DomainOrderByRelationAggregateInput;
     workspaces?: Prisma.WorkspaceOrderByWithRelationInput;
 };
 export type InstanceWhereUniqueInput = Prisma.AtLeast<{
@@ -268,16 +266,17 @@ export type InstanceWhereUniqueInput = Prisma.AtLeast<{
     name?: Prisma.StringFilter<"Instance"> | string;
     image?: Prisma.StringFilter<"Instance"> | string;
     type?: Prisma.EnumTypeFilter<"Instance"> | $Enums.Type;
+    status?: Prisma.StringFilter<"Instance"> | string;
     gitUrl?: Prisma.StringNullableFilter<"Instance"> | string | null;
     uploadPath?: Prisma.StringNullableFilter<"Instance"> | string | null;
     volume?: Prisma.StringNullableFilter<"Instance"> | string | null;
-    portId?: Prisma.IntNullableFilter<"Instance"> | number | null;
     enviorement?: Prisma.JsonNullableFilter<"Instance">;
     workspaceId?: Prisma.IntFilter<"Instance"> | number;
     createdAt?: Prisma.DateTimeFilter<"Instance"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Instance"> | Date | string;
-    ports?: Prisma.XOR<Prisma.PortNullableScalarRelationFilter, Prisma.PortWhereInput> | null;
-    domains?: Prisma.XOR<Prisma.DomainNullableScalarRelationFilter, Prisma.DomainWhereInput> | null;
+    gitRepo?: Prisma.XOR<Prisma.GitRepoNullableScalarRelationFilter, Prisma.GitRepoWhereInput> | null;
+    ports?: Prisma.PortListRelationFilter;
+    domains?: Prisma.DomainListRelationFilter;
     workspaces?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>;
 }, "id" | "slug">;
 export type InstanceOrderByWithAggregationInput = {
@@ -286,10 +285,10 @@ export type InstanceOrderByWithAggregationInput = {
     slug?: Prisma.SortOrder;
     image?: Prisma.SortOrder;
     type?: Prisma.SortOrder;
+    status?: Prisma.SortOrder;
     gitUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
     uploadPath?: Prisma.SortOrderInput | Prisma.SortOrder;
     volume?: Prisma.SortOrderInput | Prisma.SortOrder;
-    portId?: Prisma.SortOrderInput | Prisma.SortOrder;
     enviorement?: Prisma.SortOrderInput | Prisma.SortOrder;
     workspaceId?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
@@ -309,10 +308,10 @@ export type InstanceScalarWhereWithAggregatesInput = {
     slug?: Prisma.StringWithAggregatesFilter<"Instance"> | string;
     image?: Prisma.StringWithAggregatesFilter<"Instance"> | string;
     type?: Prisma.EnumTypeWithAggregatesFilter<"Instance"> | $Enums.Type;
+    status?: Prisma.StringWithAggregatesFilter<"Instance"> | string;
     gitUrl?: Prisma.StringNullableWithAggregatesFilter<"Instance"> | string | null;
     uploadPath?: Prisma.StringNullableWithAggregatesFilter<"Instance"> | string | null;
     volume?: Prisma.StringNullableWithAggregatesFilter<"Instance"> | string | null;
-    portId?: Prisma.IntNullableWithAggregatesFilter<"Instance"> | number | null;
     enviorement?: Prisma.JsonNullableWithAggregatesFilter<"Instance">;
     workspaceId?: Prisma.IntWithAggregatesFilter<"Instance"> | number;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"Instance"> | Date | string;
@@ -323,15 +322,16 @@ export type InstanceCreateInput = {
     slug: string;
     image: string;
     type?: $Enums.Type;
+    status?: string;
     gitUrl?: string | null;
     uploadPath?: string | null;
     volume?: string | null;
-    portId?: number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    ports?: Prisma.PortCreateNestedOneWithoutInstancesInput;
-    domains?: Prisma.DomainCreateNestedOneWithoutInstancesInput;
+    gitRepo?: Prisma.GitRepoCreateNestedOneWithoutInstanceInput;
+    ports?: Prisma.PortCreateNestedManyWithoutInstancesInput;
+    domains?: Prisma.DomainCreateNestedManyWithoutInstancesInput;
     workspaces: Prisma.WorkspaceCreateNestedOneWithoutInstancesInput;
 };
 export type InstanceUncheckedCreateInput = {
@@ -340,31 +340,33 @@ export type InstanceUncheckedCreateInput = {
     slug: string;
     image: string;
     type?: $Enums.Type;
+    status?: string;
     gitUrl?: string | null;
     uploadPath?: string | null;
     volume?: string | null;
-    portId?: number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     workspaceId: number;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    ports?: Prisma.PortUncheckedCreateNestedOneWithoutInstancesInput;
-    domains?: Prisma.DomainUncheckedCreateNestedOneWithoutInstancesInput;
+    gitRepo?: Prisma.GitRepoUncheckedCreateNestedOneWithoutInstanceInput;
+    ports?: Prisma.PortUncheckedCreateNestedManyWithoutInstancesInput;
+    domains?: Prisma.DomainUncheckedCreateNestedManyWithoutInstancesInput;
 };
 export type InstanceUpdateInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     image?: Prisma.StringFieldUpdateOperationsInput | string;
     type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
     gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    portId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    ports?: Prisma.PortUpdateOneWithoutInstancesNestedInput;
-    domains?: Prisma.DomainUpdateOneWithoutInstancesNestedInput;
+    gitRepo?: Prisma.GitRepoUpdateOneWithoutInstanceNestedInput;
+    ports?: Prisma.PortUpdateManyWithoutInstancesNestedInput;
+    domains?: Prisma.DomainUpdateManyWithoutInstancesNestedInput;
     workspaces?: Prisma.WorkspaceUpdateOneRequiredWithoutInstancesNestedInput;
 };
 export type InstanceUncheckedUpdateInput = {
@@ -373,16 +375,17 @@ export type InstanceUncheckedUpdateInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     image?: Prisma.StringFieldUpdateOperationsInput | string;
     type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
     gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    portId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     workspaceId?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    ports?: Prisma.PortUncheckedUpdateOneWithoutInstancesNestedInput;
-    domains?: Prisma.DomainUncheckedUpdateOneWithoutInstancesNestedInput;
+    gitRepo?: Prisma.GitRepoUncheckedUpdateOneWithoutInstanceNestedInput;
+    ports?: Prisma.PortUncheckedUpdateManyWithoutInstancesNestedInput;
+    domains?: Prisma.DomainUncheckedUpdateManyWithoutInstancesNestedInput;
 };
 export type InstanceCreateManyInput = {
     id?: number;
@@ -390,10 +393,10 @@ export type InstanceCreateManyInput = {
     slug: string;
     image: string;
     type?: $Enums.Type;
+    status?: string;
     gitUrl?: string | null;
     uploadPath?: string | null;
     volume?: string | null;
-    portId?: number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     workspaceId: number;
     createdAt?: Date | string;
@@ -404,10 +407,10 @@ export type InstanceUpdateManyMutationInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     image?: Prisma.StringFieldUpdateOperationsInput | string;
     type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
     gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    portId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -418,10 +421,10 @@ export type InstanceUncheckedUpdateManyInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     image?: Prisma.StringFieldUpdateOperationsInput | string;
     type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
     gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    portId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     workspaceId?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -441,10 +444,10 @@ export type InstanceCountOrderByAggregateInput = {
     slug?: Prisma.SortOrder;
     image?: Prisma.SortOrder;
     type?: Prisma.SortOrder;
+    status?: Prisma.SortOrder;
     gitUrl?: Prisma.SortOrder;
     uploadPath?: Prisma.SortOrder;
     volume?: Prisma.SortOrder;
-    portId?: Prisma.SortOrder;
     enviorement?: Prisma.SortOrder;
     workspaceId?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
@@ -452,7 +455,6 @@ export type InstanceCountOrderByAggregateInput = {
 };
 export type InstanceAvgOrderByAggregateInput = {
     id?: Prisma.SortOrder;
-    portId?: Prisma.SortOrder;
     workspaceId?: Prisma.SortOrder;
 };
 export type InstanceMaxOrderByAggregateInput = {
@@ -461,10 +463,10 @@ export type InstanceMaxOrderByAggregateInput = {
     slug?: Prisma.SortOrder;
     image?: Prisma.SortOrder;
     type?: Prisma.SortOrder;
+    status?: Prisma.SortOrder;
     gitUrl?: Prisma.SortOrder;
     uploadPath?: Prisma.SortOrder;
     volume?: Prisma.SortOrder;
-    portId?: Prisma.SortOrder;
     workspaceId?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
@@ -475,17 +477,16 @@ export type InstanceMinOrderByAggregateInput = {
     slug?: Prisma.SortOrder;
     image?: Prisma.SortOrder;
     type?: Prisma.SortOrder;
+    status?: Prisma.SortOrder;
     gitUrl?: Prisma.SortOrder;
     uploadPath?: Prisma.SortOrder;
     volume?: Prisma.SortOrder;
-    portId?: Prisma.SortOrder;
     workspaceId?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
 };
 export type InstanceSumOrderByAggregateInput = {
     id?: Prisma.SortOrder;
-    portId?: Prisma.SortOrder;
     workspaceId?: Prisma.SortOrder;
 };
 export type InstanceScalarRelationFilter = {
@@ -533,12 +534,17 @@ export type InstanceUncheckedUpdateManyWithoutWorkspacesNestedInput = {
 export type EnumTypeFieldUpdateOperationsInput = {
     set?: $Enums.Type;
 };
-export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null;
-    increment?: number;
-    decrement?: number;
-    multiply?: number;
-    divide?: number;
+export type InstanceCreateNestedOneWithoutGitRepoInput = {
+    create?: Prisma.XOR<Prisma.InstanceCreateWithoutGitRepoInput, Prisma.InstanceUncheckedCreateWithoutGitRepoInput>;
+    connectOrCreate?: Prisma.InstanceCreateOrConnectWithoutGitRepoInput;
+    connect?: Prisma.InstanceWhereUniqueInput;
+};
+export type InstanceUpdateOneRequiredWithoutGitRepoNestedInput = {
+    create?: Prisma.XOR<Prisma.InstanceCreateWithoutGitRepoInput, Prisma.InstanceUncheckedCreateWithoutGitRepoInput>;
+    connectOrCreate?: Prisma.InstanceCreateOrConnectWithoutGitRepoInput;
+    upsert?: Prisma.InstanceUpsertWithoutGitRepoInput;
+    connect?: Prisma.InstanceWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.InstanceUpdateToOneWithWhereWithoutGitRepoInput, Prisma.InstanceUpdateWithoutGitRepoInput>, Prisma.InstanceUncheckedUpdateWithoutGitRepoInput>;
 };
 export type InstanceCreateNestedOneWithoutDomainsInput = {
     create?: Prisma.XOR<Prisma.InstanceCreateWithoutDomainsInput, Prisma.InstanceUncheckedCreateWithoutDomainsInput>;
@@ -569,15 +575,16 @@ export type InstanceCreateWithoutWorkspacesInput = {
     slug: string;
     image: string;
     type?: $Enums.Type;
+    status?: string;
     gitUrl?: string | null;
     uploadPath?: string | null;
     volume?: string | null;
-    portId?: number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    ports?: Prisma.PortCreateNestedOneWithoutInstancesInput;
-    domains?: Prisma.DomainCreateNestedOneWithoutInstancesInput;
+    gitRepo?: Prisma.GitRepoCreateNestedOneWithoutInstanceInput;
+    ports?: Prisma.PortCreateNestedManyWithoutInstancesInput;
+    domains?: Prisma.DomainCreateNestedManyWithoutInstancesInput;
 };
 export type InstanceUncheckedCreateWithoutWorkspacesInput = {
     id?: number;
@@ -585,15 +592,16 @@ export type InstanceUncheckedCreateWithoutWorkspacesInput = {
     slug: string;
     image: string;
     type?: $Enums.Type;
+    status?: string;
     gitUrl?: string | null;
     uploadPath?: string | null;
     volume?: string | null;
-    portId?: number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    ports?: Prisma.PortUncheckedCreateNestedOneWithoutInstancesInput;
-    domains?: Prisma.DomainUncheckedCreateNestedOneWithoutInstancesInput;
+    gitRepo?: Prisma.GitRepoUncheckedCreateNestedOneWithoutInstanceInput;
+    ports?: Prisma.PortUncheckedCreateNestedManyWithoutInstancesInput;
+    domains?: Prisma.DomainUncheckedCreateNestedManyWithoutInstancesInput;
 };
 export type InstanceCreateOrConnectWithoutWorkspacesInput = {
     where: Prisma.InstanceWhereUniqueInput;
@@ -624,28 +632,108 @@ export type InstanceScalarWhereInput = {
     slug?: Prisma.StringFilter<"Instance"> | string;
     image?: Prisma.StringFilter<"Instance"> | string;
     type?: Prisma.EnumTypeFilter<"Instance"> | $Enums.Type;
+    status?: Prisma.StringFilter<"Instance"> | string;
     gitUrl?: Prisma.StringNullableFilter<"Instance"> | string | null;
     uploadPath?: Prisma.StringNullableFilter<"Instance"> | string | null;
     volume?: Prisma.StringNullableFilter<"Instance"> | string | null;
-    portId?: Prisma.IntNullableFilter<"Instance"> | number | null;
     enviorement?: Prisma.JsonNullableFilter<"Instance">;
     workspaceId?: Prisma.IntFilter<"Instance"> | number;
     createdAt?: Prisma.DateTimeFilter<"Instance"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Instance"> | Date | string;
+};
+export type InstanceCreateWithoutGitRepoInput = {
+    name: string;
+    slug: string;
+    image: string;
+    type?: $Enums.Type;
+    status?: string;
+    gitUrl?: string | null;
+    uploadPath?: string | null;
+    volume?: string | null;
+    enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    ports?: Prisma.PortCreateNestedManyWithoutInstancesInput;
+    domains?: Prisma.DomainCreateNestedManyWithoutInstancesInput;
+    workspaces: Prisma.WorkspaceCreateNestedOneWithoutInstancesInput;
+};
+export type InstanceUncheckedCreateWithoutGitRepoInput = {
+    id?: number;
+    name: string;
+    slug: string;
+    image: string;
+    type?: $Enums.Type;
+    status?: string;
+    gitUrl?: string | null;
+    uploadPath?: string | null;
+    volume?: string | null;
+    enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    workspaceId: number;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    ports?: Prisma.PortUncheckedCreateNestedManyWithoutInstancesInput;
+    domains?: Prisma.DomainUncheckedCreateNestedManyWithoutInstancesInput;
+};
+export type InstanceCreateOrConnectWithoutGitRepoInput = {
+    where: Prisma.InstanceWhereUniqueInput;
+    create: Prisma.XOR<Prisma.InstanceCreateWithoutGitRepoInput, Prisma.InstanceUncheckedCreateWithoutGitRepoInput>;
+};
+export type InstanceUpsertWithoutGitRepoInput = {
+    update: Prisma.XOR<Prisma.InstanceUpdateWithoutGitRepoInput, Prisma.InstanceUncheckedUpdateWithoutGitRepoInput>;
+    create: Prisma.XOR<Prisma.InstanceCreateWithoutGitRepoInput, Prisma.InstanceUncheckedCreateWithoutGitRepoInput>;
+    where?: Prisma.InstanceWhereInput;
+};
+export type InstanceUpdateToOneWithWhereWithoutGitRepoInput = {
+    where?: Prisma.InstanceWhereInput;
+    data: Prisma.XOR<Prisma.InstanceUpdateWithoutGitRepoInput, Prisma.InstanceUncheckedUpdateWithoutGitRepoInput>;
+};
+export type InstanceUpdateWithoutGitRepoInput = {
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    slug?: Prisma.StringFieldUpdateOperationsInput | string;
+    image?: Prisma.StringFieldUpdateOperationsInput | string;
+    type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
+    gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    ports?: Prisma.PortUpdateManyWithoutInstancesNestedInput;
+    domains?: Prisma.DomainUpdateManyWithoutInstancesNestedInput;
+    workspaces?: Prisma.WorkspaceUpdateOneRequiredWithoutInstancesNestedInput;
+};
+export type InstanceUncheckedUpdateWithoutGitRepoInput = {
+    id?: Prisma.IntFieldUpdateOperationsInput | number;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    slug?: Prisma.StringFieldUpdateOperationsInput | string;
+    image?: Prisma.StringFieldUpdateOperationsInput | string;
+    type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
+    gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    workspaceId?: Prisma.IntFieldUpdateOperationsInput | number;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    ports?: Prisma.PortUncheckedUpdateManyWithoutInstancesNestedInput;
+    domains?: Prisma.DomainUncheckedUpdateManyWithoutInstancesNestedInput;
 };
 export type InstanceCreateWithoutDomainsInput = {
     name: string;
     slug: string;
     image: string;
     type?: $Enums.Type;
+    status?: string;
     gitUrl?: string | null;
     uploadPath?: string | null;
     volume?: string | null;
-    portId?: number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    ports?: Prisma.PortCreateNestedOneWithoutInstancesInput;
+    gitRepo?: Prisma.GitRepoCreateNestedOneWithoutInstanceInput;
+    ports?: Prisma.PortCreateNestedManyWithoutInstancesInput;
     workspaces: Prisma.WorkspaceCreateNestedOneWithoutInstancesInput;
 };
 export type InstanceUncheckedCreateWithoutDomainsInput = {
@@ -654,15 +742,16 @@ export type InstanceUncheckedCreateWithoutDomainsInput = {
     slug: string;
     image: string;
     type?: $Enums.Type;
+    status?: string;
     gitUrl?: string | null;
     uploadPath?: string | null;
     volume?: string | null;
-    portId?: number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     workspaceId: number;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    ports?: Prisma.PortUncheckedCreateNestedOneWithoutInstancesInput;
+    gitRepo?: Prisma.GitRepoUncheckedCreateNestedOneWithoutInstanceInput;
+    ports?: Prisma.PortUncheckedCreateNestedManyWithoutInstancesInput;
 };
 export type InstanceCreateOrConnectWithoutDomainsInput = {
     where: Prisma.InstanceWhereUniqueInput;
@@ -682,14 +771,15 @@ export type InstanceUpdateWithoutDomainsInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     image?: Prisma.StringFieldUpdateOperationsInput | string;
     type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
     gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    portId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    ports?: Prisma.PortUpdateOneWithoutInstancesNestedInput;
+    gitRepo?: Prisma.GitRepoUpdateOneWithoutInstanceNestedInput;
+    ports?: Prisma.PortUpdateManyWithoutInstancesNestedInput;
     workspaces?: Prisma.WorkspaceUpdateOneRequiredWithoutInstancesNestedInput;
 };
 export type InstanceUncheckedUpdateWithoutDomainsInput = {
@@ -698,29 +788,31 @@ export type InstanceUncheckedUpdateWithoutDomainsInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     image?: Prisma.StringFieldUpdateOperationsInput | string;
     type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
     gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    portId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     workspaceId?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    ports?: Prisma.PortUncheckedUpdateOneWithoutInstancesNestedInput;
+    gitRepo?: Prisma.GitRepoUncheckedUpdateOneWithoutInstanceNestedInput;
+    ports?: Prisma.PortUncheckedUpdateManyWithoutInstancesNestedInput;
 };
 export type InstanceCreateWithoutPortsInput = {
     name: string;
     slug: string;
     image: string;
     type?: $Enums.Type;
+    status?: string;
     gitUrl?: string | null;
     uploadPath?: string | null;
     volume?: string | null;
-    portId?: number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    domains?: Prisma.DomainCreateNestedOneWithoutInstancesInput;
+    gitRepo?: Prisma.GitRepoCreateNestedOneWithoutInstanceInput;
+    domains?: Prisma.DomainCreateNestedManyWithoutInstancesInput;
     workspaces: Prisma.WorkspaceCreateNestedOneWithoutInstancesInput;
 };
 export type InstanceUncheckedCreateWithoutPortsInput = {
@@ -729,15 +821,16 @@ export type InstanceUncheckedCreateWithoutPortsInput = {
     slug: string;
     image: string;
     type?: $Enums.Type;
+    status?: string;
     gitUrl?: string | null;
     uploadPath?: string | null;
     volume?: string | null;
-    portId?: number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     workspaceId: number;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    domains?: Prisma.DomainUncheckedCreateNestedOneWithoutInstancesInput;
+    gitRepo?: Prisma.GitRepoUncheckedCreateNestedOneWithoutInstanceInput;
+    domains?: Prisma.DomainUncheckedCreateNestedManyWithoutInstancesInput;
 };
 export type InstanceCreateOrConnectWithoutPortsInput = {
     where: Prisma.InstanceWhereUniqueInput;
@@ -757,14 +850,15 @@ export type InstanceUpdateWithoutPortsInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     image?: Prisma.StringFieldUpdateOperationsInput | string;
     type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
     gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    portId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    domains?: Prisma.DomainUpdateOneWithoutInstancesNestedInput;
+    gitRepo?: Prisma.GitRepoUpdateOneWithoutInstanceNestedInput;
+    domains?: Prisma.DomainUpdateManyWithoutInstancesNestedInput;
     workspaces?: Prisma.WorkspaceUpdateOneRequiredWithoutInstancesNestedInput;
 };
 export type InstanceUncheckedUpdateWithoutPortsInput = {
@@ -773,15 +867,16 @@ export type InstanceUncheckedUpdateWithoutPortsInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     image?: Prisma.StringFieldUpdateOperationsInput | string;
     type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
     gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    portId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     workspaceId?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    domains?: Prisma.DomainUncheckedUpdateOneWithoutInstancesNestedInput;
+    gitRepo?: Prisma.GitRepoUncheckedUpdateOneWithoutInstanceNestedInput;
+    domains?: Prisma.DomainUncheckedUpdateManyWithoutInstancesNestedInput;
 };
 export type InstanceCreateManyWorkspacesInput = {
     id?: number;
@@ -789,10 +884,10 @@ export type InstanceCreateManyWorkspacesInput = {
     slug: string;
     image: string;
     type?: $Enums.Type;
+    status?: string;
     gitUrl?: string | null;
     uploadPath?: string | null;
     volume?: string | null;
-    portId?: number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -802,15 +897,16 @@ export type InstanceUpdateWithoutWorkspacesInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     image?: Prisma.StringFieldUpdateOperationsInput | string;
     type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
     gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    portId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    ports?: Prisma.PortUpdateOneWithoutInstancesNestedInput;
-    domains?: Prisma.DomainUpdateOneWithoutInstancesNestedInput;
+    gitRepo?: Prisma.GitRepoUpdateOneWithoutInstanceNestedInput;
+    ports?: Prisma.PortUpdateManyWithoutInstancesNestedInput;
+    domains?: Prisma.DomainUpdateManyWithoutInstancesNestedInput;
 };
 export type InstanceUncheckedUpdateWithoutWorkspacesInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -818,15 +914,16 @@ export type InstanceUncheckedUpdateWithoutWorkspacesInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     image?: Prisma.StringFieldUpdateOperationsInput | string;
     type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
     gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    portId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    ports?: Prisma.PortUncheckedUpdateOneWithoutInstancesNestedInput;
-    domains?: Prisma.DomainUncheckedUpdateOneWithoutInstancesNestedInput;
+    gitRepo?: Prisma.GitRepoUncheckedUpdateOneWithoutInstanceNestedInput;
+    ports?: Prisma.PortUncheckedUpdateManyWithoutInstancesNestedInput;
+    domains?: Prisma.DomainUncheckedUpdateManyWithoutInstancesNestedInput;
 };
 export type InstanceUncheckedUpdateManyWithoutWorkspacesInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -834,13 +931,45 @@ export type InstanceUncheckedUpdateManyWithoutWorkspacesInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     image?: Prisma.StringFieldUpdateOperationsInput | string;
     type?: Prisma.EnumTypeFieldUpdateOperationsInput | $Enums.Type;
+    status?: Prisma.StringFieldUpdateOperationsInput | string;
     gitUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     uploadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     volume?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    portId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     enviorement?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+/**
+ * Count Type InstanceCountOutputType
+ */
+export type InstanceCountOutputType = {
+    ports: number;
+    domains: number;
+};
+export type InstanceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    ports?: boolean | InstanceCountOutputTypeCountPortsArgs;
+    domains?: boolean | InstanceCountOutputTypeCountDomainsArgs;
+};
+/**
+ * InstanceCountOutputType without action
+ */
+export type InstanceCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstanceCountOutputType
+     */
+    select?: Prisma.InstanceCountOutputTypeSelect<ExtArgs> | null;
+};
+/**
+ * InstanceCountOutputType without action
+ */
+export type InstanceCountOutputTypeCountPortsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.PortWhereInput;
+};
+/**
+ * InstanceCountOutputType without action
+ */
+export type InstanceCountOutputTypeCountDomainsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.DomainWhereInput;
 };
 export type InstanceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -848,17 +977,19 @@ export type InstanceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
     slug?: boolean;
     image?: boolean;
     type?: boolean;
+    status?: boolean;
     gitUrl?: boolean;
     uploadPath?: boolean;
     volume?: boolean;
-    portId?: boolean;
     enviorement?: boolean;
     workspaceId?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    gitRepo?: boolean | Prisma.Instance$gitRepoArgs<ExtArgs>;
     ports?: boolean | Prisma.Instance$portsArgs<ExtArgs>;
     domains?: boolean | Prisma.Instance$domainsArgs<ExtArgs>;
     workspaces?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>;
+    _count?: boolean | Prisma.InstanceCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["instance"]>;
 export type InstanceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -866,10 +997,10 @@ export type InstanceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
     slug?: boolean;
     image?: boolean;
     type?: boolean;
+    status?: boolean;
     gitUrl?: boolean;
     uploadPath?: boolean;
     volume?: boolean;
-    portId?: boolean;
     enviorement?: boolean;
     workspaceId?: boolean;
     createdAt?: boolean;
@@ -882,10 +1013,10 @@ export type InstanceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
     slug?: boolean;
     image?: boolean;
     type?: boolean;
+    status?: boolean;
     gitUrl?: boolean;
     uploadPath?: boolean;
     volume?: boolean;
-    portId?: boolean;
     enviorement?: boolean;
     workspaceId?: boolean;
     createdAt?: boolean;
@@ -898,20 +1029,22 @@ export type InstanceSelectScalar = {
     slug?: boolean;
     image?: boolean;
     type?: boolean;
+    status?: boolean;
     gitUrl?: boolean;
     uploadPath?: boolean;
     volume?: boolean;
-    portId?: boolean;
     enviorement?: boolean;
     workspaceId?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
 };
-export type InstanceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "image" | "type" | "gitUrl" | "uploadPath" | "volume" | "portId" | "enviorement" | "workspaceId" | "createdAt" | "updatedAt", ExtArgs["result"]["instance"]>;
+export type InstanceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "image" | "type" | "status" | "gitUrl" | "uploadPath" | "volume" | "enviorement" | "workspaceId" | "createdAt" | "updatedAt", ExtArgs["result"]["instance"]>;
 export type InstanceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    gitRepo?: boolean | Prisma.Instance$gitRepoArgs<ExtArgs>;
     ports?: boolean | Prisma.Instance$portsArgs<ExtArgs>;
     domains?: boolean | Prisma.Instance$domainsArgs<ExtArgs>;
     workspaces?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>;
+    _count?: boolean | Prisma.InstanceCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type InstanceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     workspaces?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>;
@@ -922,8 +1055,9 @@ export type InstanceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $InstancePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "Instance";
     objects: {
-        ports: Prisma.$PortPayload<ExtArgs> | null;
-        domains: Prisma.$DomainPayload<ExtArgs> | null;
+        gitRepo: Prisma.$GitRepoPayload<ExtArgs> | null;
+        ports: Prisma.$PortPayload<ExtArgs>[];
+        domains: Prisma.$DomainPayload<ExtArgs>[];
         workspaces: Prisma.$WorkspacePayload<ExtArgs>;
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -932,10 +1066,10 @@ export type $InstancePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
         slug: string;
         image: string;
         type: $Enums.Type;
+        status: string;
         gitUrl: string | null;
         uploadPath: string | null;
         volume: string | null;
-        portId: number | null;
         enviorement: runtime.JsonValue | null;
         workspaceId: number;
         createdAt: Date;
@@ -1269,8 +1403,9 @@ export interface InstanceDelegate<ExtArgs extends runtime.Types.Extensions.Inter
  */
 export interface Prisma__InstanceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
-    ports<T extends Prisma.Instance$portsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Instance$portsArgs<ExtArgs>>): Prisma.Prisma__PortClient<runtime.Types.Result.GetResult<Prisma.$PortPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
-    domains<T extends Prisma.Instance$domainsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Instance$domainsArgs<ExtArgs>>): Prisma.Prisma__DomainClient<runtime.Types.Result.GetResult<Prisma.$DomainPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    gitRepo<T extends Prisma.Instance$gitRepoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Instance$gitRepoArgs<ExtArgs>>): Prisma.Prisma__GitRepoClient<runtime.Types.Result.GetResult<Prisma.$GitRepoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    ports<T extends Prisma.Instance$portsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Instance$portsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PortPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    domains<T extends Prisma.Instance$domainsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Instance$domainsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DomainPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     workspaces<T extends Prisma.WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkspaceDefaultArgs<ExtArgs>>): Prisma.Prisma__WorkspaceClient<runtime.Types.Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1302,10 +1437,10 @@ export interface InstanceFieldRefs {
     readonly slug: Prisma.FieldRef<"Instance", 'String'>;
     readonly image: Prisma.FieldRef<"Instance", 'String'>;
     readonly type: Prisma.FieldRef<"Instance", 'Type'>;
+    readonly status: Prisma.FieldRef<"Instance", 'String'>;
     readonly gitUrl: Prisma.FieldRef<"Instance", 'String'>;
     readonly uploadPath: Prisma.FieldRef<"Instance", 'String'>;
     readonly volume: Prisma.FieldRef<"Instance", 'String'>;
-    readonly portId: Prisma.FieldRef<"Instance", 'Int'>;
     readonly enviorement: Prisma.FieldRef<"Instance", 'Json'>;
     readonly workspaceId: Prisma.FieldRef<"Instance", 'Int'>;
     readonly createdAt: Prisma.FieldRef<"Instance", 'DateTime'>;
@@ -1687,6 +1822,24 @@ export type InstanceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
     limit?: number;
 };
 /**
+ * Instance.gitRepo
+ */
+export type Instance$gitRepoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GitRepo
+     */
+    select?: Prisma.GitRepoSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the GitRepo
+     */
+    omit?: Prisma.GitRepoOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.GitRepoInclude<ExtArgs> | null;
+    where?: Prisma.GitRepoWhereInput;
+};
+/**
  * Instance.ports
  */
 export type Instance$portsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1703,6 +1856,11 @@ export type Instance$portsArgs<ExtArgs extends runtime.Types.Extensions.Internal
      */
     include?: Prisma.PortInclude<ExtArgs> | null;
     where?: Prisma.PortWhereInput;
+    orderBy?: Prisma.PortOrderByWithRelationInput | Prisma.PortOrderByWithRelationInput[];
+    cursor?: Prisma.PortWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.PortScalarFieldEnum | Prisma.PortScalarFieldEnum[];
 };
 /**
  * Instance.domains
@@ -1721,6 +1879,11 @@ export type Instance$domainsArgs<ExtArgs extends runtime.Types.Extensions.Intern
      */
     include?: Prisma.DomainInclude<ExtArgs> | null;
     where?: Prisma.DomainWhereInput;
+    orderBy?: Prisma.DomainOrderByWithRelationInput | Prisma.DomainOrderByWithRelationInput[];
+    cursor?: Prisma.DomainWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.DomainScalarFieldEnum | Prisma.DomainScalarFieldEnum[];
 };
 /**
  * Instance without action

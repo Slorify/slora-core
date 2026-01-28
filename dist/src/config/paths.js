@@ -9,6 +9,6 @@ export const PATHS = {
     cache: path.join(APP_DATA_ROOT, "cache"),
 };
 export const NETWORKS = {
-    proxy: "emberlabs-proxy"
+    proxy: "slora-proxy",
 };
 //# sourceMappingURL=paths.js.map

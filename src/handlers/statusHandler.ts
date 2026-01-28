@@ -8,7 +8,7 @@ export type Status =
   | "restarting"
   | "stopped";
 
-const lastEmittedStatus = new Map<string, Status>();
+export const lastEmittedStatus = new Map<string, Status>();
 
 function phaseToStatus(phase: string): Status {
   switch (phase) {
@@ -50,7 +50,7 @@ async function loadStatusFromDB(service: string): Promise<Status | null> {
     select: { status: true },
   });
 
-  return instance?.status ?? null;
+  return instance?.status as Status | null;
 }
 
 export function attachStatusHandler(): void {
@@ -60,7 +60,13 @@ export function attachStatusHandler(): void {
     const match = event.match(/^(deploy|start|logs|restart|stop)-(.+)$/);
 
     if (match) {
-      const [, phase, service] = match;
+      const phase = match[1];
+      const service = match[2];
+
+      if (!phase || !service) {
+        return originalEmit(event, ...args);
+      }
+
       const nextStatus = phaseToStatus(phase);
       const prevStatus = lastEmittedStatus.get(service);
 

@@ -6,4 +6,5 @@ export declare const deleteGitApp: (req: Request, res: Response) => Promise<Resp
 export declare const getGitRepos: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 export declare const regenerateGitAppToken: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 export declare const updateGitUrl: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+export declare const getInstanceGit: (req: Request, res: Response) => Promise<void>;
 //# sourceMappingURL=git.controller.d.ts.map

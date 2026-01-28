@@ -188,15 +188,15 @@ export type DomainOrderByWithRelationInput = {
 };
 export type DomainWhereUniqueInput = Prisma.AtLeast<{
     id?: number;
-    instanceId?: number;
     AND?: Prisma.DomainWhereInput | Prisma.DomainWhereInput[];
     OR?: Prisma.DomainWhereInput[];
     NOT?: Prisma.DomainWhereInput | Prisma.DomainWhereInput[];
     name?: Prisma.StringFilter<"Domain"> | string;
     domain?: Prisma.StringFilter<"Domain"> | string;
     port?: Prisma.IntFilter<"Domain"> | number;
+    instanceId?: Prisma.IntFilter<"Domain"> | number;
     instances?: Prisma.XOR<Prisma.InstanceScalarRelationFilter, Prisma.InstanceWhereInput>;
-}, "id" | "instanceId">;
+}, "id">;
 export type DomainOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
@@ -264,9 +264,13 @@ export type DomainUncheckedUpdateManyInput = {
     port?: Prisma.IntFieldUpdateOperationsInput | number;
     instanceId?: Prisma.IntFieldUpdateOperationsInput | number;
 };
-export type DomainNullableScalarRelationFilter = {
-    is?: Prisma.DomainWhereInput | null;
-    isNot?: Prisma.DomainWhereInput | null;
+export type DomainListRelationFilter = {
+    every?: Prisma.DomainWhereInput;
+    some?: Prisma.DomainWhereInput;
+    none?: Prisma.DomainWhereInput;
+};
+export type DomainOrderByRelationAggregateInput = {
+    _count?: Prisma.SortOrder;
 };
 export type DomainCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -299,33 +303,43 @@ export type DomainSumOrderByAggregateInput = {
     port?: Prisma.SortOrder;
     instanceId?: Prisma.SortOrder;
 };
-export type DomainCreateNestedOneWithoutInstancesInput = {
-    create?: Prisma.XOR<Prisma.DomainCreateWithoutInstancesInput, Prisma.DomainUncheckedCreateWithoutInstancesInput>;
-    connectOrCreate?: Prisma.DomainCreateOrConnectWithoutInstancesInput;
-    connect?: Prisma.DomainWhereUniqueInput;
+export type DomainCreateNestedManyWithoutInstancesInput = {
+    create?: Prisma.XOR<Prisma.DomainCreateWithoutInstancesInput, Prisma.DomainUncheckedCreateWithoutInstancesInput> | Prisma.DomainCreateWithoutInstancesInput[] | Prisma.DomainUncheckedCreateWithoutInstancesInput[];
+    connectOrCreate?: Prisma.DomainCreateOrConnectWithoutInstancesInput | Prisma.DomainCreateOrConnectWithoutInstancesInput[];
+    createMany?: Prisma.DomainCreateManyInstancesInputEnvelope;
+    connect?: Prisma.DomainWhereUniqueInput | Prisma.DomainWhereUniqueInput[];
 };
-export type DomainUncheckedCreateNestedOneWithoutInstancesInput = {
-    create?: Prisma.XOR<Prisma.DomainCreateWithoutInstancesInput, Prisma.DomainUncheckedCreateWithoutInstancesInput>;
-    connectOrCreate?: Prisma.DomainCreateOrConnectWithoutInstancesInput;
-    connect?: Prisma.DomainWhereUniqueInput;
+export type DomainUncheckedCreateNestedManyWithoutInstancesInput = {
+    create?: Prisma.XOR<Prisma.DomainCreateWithoutInstancesInput, Prisma.DomainUncheckedCreateWithoutInstancesInput> | Prisma.DomainCreateWithoutInstancesInput[] | Prisma.DomainUncheckedCreateWithoutInstancesInput[];
+    connectOrCreate?: Prisma.DomainCreateOrConnectWithoutInstancesInput | Prisma.DomainCreateOrConnectWithoutInstancesInput[];
+    createMany?: Prisma.DomainCreateManyInstancesInputEnvelope;
+    connect?: Prisma.DomainWhereUniqueInput | Prisma.DomainWhereUniqueInput[];
 };
-export type DomainUpdateOneWithoutInstancesNestedInput = {
-    create?: Prisma.XOR<Prisma.DomainCreateWithoutInstancesInput, Prisma.DomainUncheckedCreateWithoutInstancesInput>;
-    connectOrCreate?: Prisma.DomainCreateOrConnectWithoutInstancesInput;
-    upsert?: Prisma.DomainUpsertWithoutInstancesInput;
-    disconnect?: Prisma.DomainWhereInput | boolean;
-    delete?: Prisma.DomainWhereInput | boolean;
-    connect?: Prisma.DomainWhereUniqueInput;
-    update?: Prisma.XOR<Prisma.XOR<Prisma.DomainUpdateToOneWithWhereWithoutInstancesInput, Prisma.DomainUpdateWithoutInstancesInput>, Prisma.DomainUncheckedUpdateWithoutInstancesInput>;
+export type DomainUpdateManyWithoutInstancesNestedInput = {
+    create?: Prisma.XOR<Prisma.DomainCreateWithoutInstancesInput, Prisma.DomainUncheckedCreateWithoutInstancesInput> | Prisma.DomainCreateWithoutInstancesInput[] | Prisma.DomainUncheckedCreateWithoutInstancesInput[];
+    connectOrCreate?: Prisma.DomainCreateOrConnectWithoutInstancesInput | Prisma.DomainCreateOrConnectWithoutInstancesInput[];
+    upsert?: Prisma.DomainUpsertWithWhereUniqueWithoutInstancesInput | Prisma.DomainUpsertWithWhereUniqueWithoutInstancesInput[];
+    createMany?: Prisma.DomainCreateManyInstancesInputEnvelope;
+    set?: Prisma.DomainWhereUniqueInput | Prisma.DomainWhereUniqueInput[];
+    disconnect?: Prisma.DomainWhereUniqueInput | Prisma.DomainWhereUniqueInput[];
+    delete?: Prisma.DomainWhereUniqueInput | Prisma.DomainWhereUniqueInput[];
+    connect?: Prisma.DomainWhereUniqueInput | Prisma.DomainWhereUniqueInput[];
+    update?: Prisma.DomainUpdateWithWhereUniqueWithoutInstancesInput | Prisma.DomainUpdateWithWhereUniqueWithoutInstancesInput[];
+    updateMany?: Prisma.DomainUpdateManyWithWhereWithoutInstancesInput | Prisma.DomainUpdateManyWithWhereWithoutInstancesInput[];
+    deleteMany?: Prisma.DomainScalarWhereInput | Prisma.DomainScalarWhereInput[];
 };
-export type DomainUncheckedUpdateOneWithoutInstancesNestedInput = {
-    create?: Prisma.XOR<Prisma.DomainCreateWithoutInstancesInput, Prisma.DomainUncheckedCreateWithoutInstancesInput>;
-    connectOrCreate?: Prisma.DomainCreateOrConnectWithoutInstancesInput;
-    upsert?: Prisma.DomainUpsertWithoutInstancesInput;
-    disconnect?: Prisma.DomainWhereInput | boolean;
-    delete?: Prisma.DomainWhereInput | boolean;
-    connect?: Prisma.DomainWhereUniqueInput;
-    update?: Prisma.XOR<Prisma.XOR<Prisma.DomainUpdateToOneWithWhereWithoutInstancesInput, Prisma.DomainUpdateWithoutInstancesInput>, Prisma.DomainUncheckedUpdateWithoutInstancesInput>;
+export type DomainUncheckedUpdateManyWithoutInstancesNestedInput = {
+    create?: Prisma.XOR<Prisma.DomainCreateWithoutInstancesInput, Prisma.DomainUncheckedCreateWithoutInstancesInput> | Prisma.DomainCreateWithoutInstancesInput[] | Prisma.DomainUncheckedCreateWithoutInstancesInput[];
+    connectOrCreate?: Prisma.DomainCreateOrConnectWithoutInstancesInput | Prisma.DomainCreateOrConnectWithoutInstancesInput[];
+    upsert?: Prisma.DomainUpsertWithWhereUniqueWithoutInstancesInput | Prisma.DomainUpsertWithWhereUniqueWithoutInstancesInput[];
+    createMany?: Prisma.DomainCreateManyInstancesInputEnvelope;
+    set?: Prisma.DomainWhereUniqueInput | Prisma.DomainWhereUniqueInput[];
+    disconnect?: Prisma.DomainWhereUniqueInput | Prisma.DomainWhereUniqueInput[];
+    delete?: Prisma.DomainWhereUniqueInput | Prisma.DomainWhereUniqueInput[];
+    connect?: Prisma.DomainWhereUniqueInput | Prisma.DomainWhereUniqueInput[];
+    update?: Prisma.DomainUpdateWithWhereUniqueWithoutInstancesInput | Prisma.DomainUpdateWithWhereUniqueWithoutInstancesInput[];
+    updateMany?: Prisma.DomainUpdateManyWithWhereWithoutInstancesInput | Prisma.DomainUpdateManyWithWhereWithoutInstancesInput[];
+    deleteMany?: Prisma.DomainScalarWhereInput | Prisma.DomainScalarWhereInput[];
 };
 export type DomainCreateWithoutInstancesInput = {
     name: string;
@@ -342,14 +356,37 @@ export type DomainCreateOrConnectWithoutInstancesInput = {
     where: Prisma.DomainWhereUniqueInput;
     create: Prisma.XOR<Prisma.DomainCreateWithoutInstancesInput, Prisma.DomainUncheckedCreateWithoutInstancesInput>;
 };
-export type DomainUpsertWithoutInstancesInput = {
+export type DomainCreateManyInstancesInputEnvelope = {
+    data: Prisma.DomainCreateManyInstancesInput | Prisma.DomainCreateManyInstancesInput[];
+};
+export type DomainUpsertWithWhereUniqueWithoutInstancesInput = {
+    where: Prisma.DomainWhereUniqueInput;
     update: Prisma.XOR<Prisma.DomainUpdateWithoutInstancesInput, Prisma.DomainUncheckedUpdateWithoutInstancesInput>;
     create: Prisma.XOR<Prisma.DomainCreateWithoutInstancesInput, Prisma.DomainUncheckedCreateWithoutInstancesInput>;
-    where?: Prisma.DomainWhereInput;
 };
-export type DomainUpdateToOneWithWhereWithoutInstancesInput = {
-    where?: Prisma.DomainWhereInput;
+export type DomainUpdateWithWhereUniqueWithoutInstancesInput = {
+    where: Prisma.DomainWhereUniqueInput;
     data: Prisma.XOR<Prisma.DomainUpdateWithoutInstancesInput, Prisma.DomainUncheckedUpdateWithoutInstancesInput>;
+};
+export type DomainUpdateManyWithWhereWithoutInstancesInput = {
+    where: Prisma.DomainScalarWhereInput;
+    data: Prisma.XOR<Prisma.DomainUpdateManyMutationInput, Prisma.DomainUncheckedUpdateManyWithoutInstancesInput>;
+};
+export type DomainScalarWhereInput = {
+    AND?: Prisma.DomainScalarWhereInput | Prisma.DomainScalarWhereInput[];
+    OR?: Prisma.DomainScalarWhereInput[];
+    NOT?: Prisma.DomainScalarWhereInput | Prisma.DomainScalarWhereInput[];
+    id?: Prisma.IntFilter<"Domain"> | number;
+    name?: Prisma.StringFilter<"Domain"> | string;
+    domain?: Prisma.StringFilter<"Domain"> | string;
+    port?: Prisma.IntFilter<"Domain"> | number;
+    instanceId?: Prisma.IntFilter<"Domain"> | number;
+};
+export type DomainCreateManyInstancesInput = {
+    id?: number;
+    name: string;
+    domain: string;
+    port?: number;
 };
 export type DomainUpdateWithoutInstancesInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -357,6 +394,12 @@ export type DomainUpdateWithoutInstancesInput = {
     port?: Prisma.IntFieldUpdateOperationsInput | number;
 };
 export type DomainUncheckedUpdateWithoutInstancesInput = {
+    id?: Prisma.IntFieldUpdateOperationsInput | number;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    domain?: Prisma.StringFieldUpdateOperationsInput | string;
+    port?: Prisma.IntFieldUpdateOperationsInput | number;
+};
+export type DomainUncheckedUpdateManyWithoutInstancesInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     domain?: Prisma.StringFieldUpdateOperationsInput | string;

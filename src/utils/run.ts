@@ -2,7 +2,7 @@ import { spawn } from "child_process";
 
 interface RunOptions {
   env?: Record<string, string>;
-  cwd?: string; // optional working directory
+  cwd?: string;
 }
 
 export default function run(
@@ -20,12 +20,11 @@ export default function run(
       shell: true,
       cwd: options.cwd || process.cwd(),
       env: {
-        ...process.env, // inherit current env
-        ...options.env, // merge custom env vars
+        ...process.env,
+        ...options.env,
       },
     });
 
-    // LIVE STDOUT
     if (child.stdout) {
       child.stdout.on("data", (data: Buffer) => {
         const text = data.toString();
@@ -34,7 +33,6 @@ export default function run(
       });
     }
 
-    // LIVE STDERR
     if (child.stderr) {
       child.stderr.on("data", (data: Buffer) => {
         const text = data.toString();

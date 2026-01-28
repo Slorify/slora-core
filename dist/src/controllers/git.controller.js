@@ -4,6 +4,7 @@ import { prisma } from "../lib/prisma.js";
 import { createOctokitGit, deleteGitAppInstallation, getInstallationAccessToken, getInstallationId, isGitAppInstalled, } from "../lib/octokitGit.js";
 import { getAllGitApps, getGitApp, getRepos } from "../lib/gitAppHandler.js";
 import { generateGitToken, getCloneUrl } from "../handlers/gitHandler.js";
+import { app } from "../server.js";
 export const getGitMenifest = async (req, res) => {
     try {
         const menifest = await GitOAuthMenifest();
@@ -260,6 +261,29 @@ export const updateGitUrl = async (req, res) => {
             where: { slug: String(islug) },
             data: { gitUrl: gitUrl },
         });
+        await prisma.gitRepo.upsert({
+            where: {
+                instanceId: instance.id,
+            },
+            update: {
+                appId: appId,
+                repo: git_repo,
+                instance: {
+                    connect: {
+                        slug: String(islug),
+                    },
+                },
+            },
+            create: {
+                appId: appId,
+                repo: git_repo,
+                instance: {
+                    connect: {
+                        slug: String(islug),
+                    },
+                },
+            },
+        });
         res.status(201).json({
             success: true,
             message: "Git url updated successfully.",
@@ -270,6 +294,26 @@ export const updateGitUrl = async (req, res) => {
         res
             .status(400)
             .json({ success: false, message: "Failed to generate URL.", err });
+    }
+};
+export const getInstanceGit = async (req, res) => {
+    try {
+        const { islug } = req.params;
+        const gitRepo = await prisma.gitRepo.findFirst({
+            where: { instance: { slug: String(islug) } },
+            select: {
+                appId: true,
+                repo: true,
+            },
+        });
+        res
+            .status(200)
+            .json({ success: true, message: "Instance GitRepo exsits.", gitRepo });
+    }
+    catch (err) {
+        res
+            .status(400)
+            .json({ success: false, message: "Instance GitRepo getting failed." });
     }
 };
 //# sourceMappingURL=git.controller.js.map

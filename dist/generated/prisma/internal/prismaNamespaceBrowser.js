@@ -45,6 +45,7 @@ export const ModelName = {
     Profile: 'Profile',
     Workspace: 'Workspace',
     Instance: 'Instance',
+    GitRepo: 'GitRepo',
     Domain: 'Domain',
     Port: 'Port'
 };
@@ -102,14 +103,21 @@ export const InstanceScalarFieldEnum = {
     slug: 'slug',
     image: 'image',
     type: 'type',
+    status: 'status',
     gitUrl: 'gitUrl',
     uploadPath: 'uploadPath',
     volume: 'volume',
-    portId: 'portId',
     enviorement: 'enviorement',
     workspaceId: 'workspaceId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
+};
+export const GitRepoScalarFieldEnum = {
+    id: 'id',
+    appId: 'appId',
+    repo: 'repo',
+    branch: 'branch',
+    instanceId: 'instanceId'
 };
 export const DomainScalarFieldEnum = {
     id: 'id',

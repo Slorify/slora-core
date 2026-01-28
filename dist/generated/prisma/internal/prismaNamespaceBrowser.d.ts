@@ -32,6 +32,7 @@ export declare const ModelName: {
     readonly Profile: "Profile";
     readonly Workspace: "Workspace";
     readonly Instance: "Instance";
+    readonly GitRepo: "GitRepo";
     readonly Domain: "Domain";
     readonly Port: "Port";
 };
@@ -93,16 +94,24 @@ export declare const InstanceScalarFieldEnum: {
     readonly slug: "slug";
     readonly image: "image";
     readonly type: "type";
+    readonly status: "status";
     readonly gitUrl: "gitUrl";
     readonly uploadPath: "uploadPath";
     readonly volume: "volume";
-    readonly portId: "portId";
     readonly enviorement: "enviorement";
     readonly workspaceId: "workspaceId";
     readonly createdAt: "createdAt";
     readonly updatedAt: "updatedAt";
 };
 export type InstanceScalarFieldEnum = (typeof InstanceScalarFieldEnum)[keyof typeof InstanceScalarFieldEnum];
+export declare const GitRepoScalarFieldEnum: {
+    readonly id: "id";
+    readonly appId: "appId";
+    readonly repo: "repo";
+    readonly branch: "branch";
+    readonly instanceId: "instanceId";
+};
+export type GitRepoScalarFieldEnum = (typeof GitRepoScalarFieldEnum)[keyof typeof GitRepoScalarFieldEnum];
 export declare const DomainScalarFieldEnum: {
     readonly id: "id";
     readonly name: "name";

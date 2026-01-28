@@ -11,6 +11,7 @@ import {
   attachStatusHandler,
   replayLastStatus,
 } from "./handlers/statusHandler.js";
+import { migrationService } from "./services/Migration.js";
 
 config();
 const port = process.env.PORT;
@@ -59,8 +60,14 @@ if (isProd) {
   });
 }
 
-server.listen(port, () => {
+server.listen(port, async () => {
   console.log(`Application running on: http://localhost:${port}`);
+
+  try {
+    await migrationService.autoMigrate();
+  } catch (error) {
+    console.error("Migration failed:", error);
+  }
 });
 
 export { io, app };

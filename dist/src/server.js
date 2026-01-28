@@ -6,8 +6,9 @@ import { fileURLToPath } from "node:url";
 import path, { dirname, join } from "node:path";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
-import { logStore } from "./utils/runCmd.js";
 import cors from "cors";
+import { attachStatusHandler, replayLastStatus, } from "./handlers/statusHandler.js";
+import { migrationService } from "./services/Migration.js";
 config();
 const port = process.env.PORT;
 const app = express();
@@ -17,6 +18,12 @@ const io = new Server(server, {
         origin: "*",
         credentials: true,
     },
+});
+attachStatusHandler();
+io.on("connection", (socket) => {
+    socket.on("status:subscribe", async (service) => {
+        await replayLastStatus(socket, service);
+    });
 });
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const isProd = process.env.NODE_ENV === "production";
@@ -39,20 +46,15 @@ else {
         res.sendFile(join(__dirname, "index.html"));
     });
 }
-io.on("connection", (socket) => {
-    console.log("Client connected:", socket.id);
-    socket.on("subscribe", (channel) => {
-        console.log(`Client subscribed to: ${channel}`);
-        const logs = logStore[channel];
-        if (logs && logs.length > 0) {
-            logs.forEach((line) => {
-                socket.emit(channel, line);
-            });
-        }
-    });
-});
-server.listen(port, () => {
+server.listen(port, async () => {
     console.log(`Application running on: http://localhost:${port}`);
+    // Auto-migrate between Compose and Swarm modes
+    try {
+        await migrationService.autoMigrate();
+    }
+    catch (error) {
+        console.error("Migration failed:", error);
+    }
 });
 export { io, app };
 //# sourceMappingURL=server.js.map

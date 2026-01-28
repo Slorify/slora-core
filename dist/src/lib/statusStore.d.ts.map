@@ -1,0 +1,1 @@
+{"version":3,"file":"statusStore.d.ts","sourceRoot":"","sources":["../../../src/lib/statusStore.ts"],"names":[],"mappings":"AAEA,MAAM,MAAM,MAAM,GACd,WAAW,GACX,UAAU,GACV,SAAS,GACT,YAAY,GACZ,SAAS,CAAC;AAqCd,wBAAsB,qBAAqB,CACzC,OAAO,EAAE,MAAM,EACf,KAAK,EAAE,MAAM,GACZ,OAAO,CAAC,IAAI,CAAC,CAoBf;AAED,wBAAgB,SAAS,CAAC,OAAO,EAAE,MAAM,GAAG,MAAM,CAEjD"}

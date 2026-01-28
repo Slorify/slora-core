@@ -21,6 +21,19 @@ export const getInstance = async (req: Request, res: Response) => {
 
     const instance = await prisma.instance.findFirst({
       where: { slug: islug, workspaces: { slug: slug } },
+      select: {
+        name: true,
+        slug: true,
+        status: true,
+        image: true,
+        type: true,
+        volume: true,
+        enviorement: true,
+        ports: true,
+        domains: true,
+        gitUrl: true,
+        uploadPath: true,
+      },
     });
 
     if (!instance) {
@@ -150,7 +163,6 @@ export const updateInstance = async (req: Request, res: Response) => {
         ...(volume !== undefined && { volume }),
         ...(enviorement !== undefined && { enviorement }),
 
-        /* ---------- PORTS ---------- */
         ...(ports && {
           ports: {
             update: portsToUpdate.map((p: any) => ({
@@ -167,7 +179,6 @@ export const updateInstance = async (req: Request, res: Response) => {
           },
         }),
 
-        /* ---------- DOMAINS ---------- */
         ...(domains && {
           domains: {
             update: domainsToUpdate.map((d: any) => ({

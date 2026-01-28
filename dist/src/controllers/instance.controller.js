@@ -6,6 +6,8 @@ import { gitService } from "../services/GitService.js";
 import { dockerService } from "../services/Docker.js";
 import { composeFileSync, checkWorkspaceExists, generateUniqueInstanceSlug, } from "../handlers/instanceHandler.js";
 import { fileService } from "../services/FileSystem.js";
+import { prismaErrorHandler } from "../handlers/prismaErrorHandler.js";
+import { io } from "../server.js";
 export const getInstance = async (req, res) => {
     try {
         const slug = String(req.params.slug);
@@ -89,8 +91,10 @@ export const deleteInstance = async (req, res) => {
             where: { slug: islug, workspaces: { slug: slug } },
         });
         await fileService.deleteDir(`${PATHS.workspaces}/${slug}/${islug}`);
-        await dockerService.stop(`${slug}`, `${slug}-${islug}`);
-        await dockerService.remove(`${slug}`, `${slug}-${islug}`);
+        await composeService.down(`${islug}`, `${PATHS.workspaces}/${slug}`, `${slug}-${islug}`);
+        await dockerService.stop(`${islug}`, `${slug}-${islug}`);
+        await dockerService.remove(`${islug}`, `${slug}-${islug}`);
+        await dockerService.deleteImage(existingInstance.image, `${slug}-${islug}`);
         await composeFileSync(slug);
         res.status(201).json({
             success: true,
@@ -109,15 +113,51 @@ export const updateInstance = async (req, res) => {
         const islug = String(req.params.islug);
         const slug = String(req.params.slug);
         const { name, image, volume, ports, domains, enviorement } = req.body;
+        const portsToUpdate = (ports ?? []).filter((p) => p.id);
+        const portsToCreate = (ports ?? []).filter((p) => !p.id);
+        const domainsToUpdate = (domains ?? []).filter((d) => d.id);
+        const domainsToCreate = (domains ?? []).filter((d) => !d.id);
         const updatedInstance = await prisma.instance.update({
-            where: { slug: islug, workspaces: { slug: slug } },
+            where: { slug: islug },
             data: {
-                name,
-                image,
-                volume,
-                domains: { update: domains },
-                ports: { update: ports },
-                enviorement,
+                ...(name !== undefined && { name }),
+                ...(image !== undefined && { image }),
+                ...(volume !== undefined && { volume }),
+                ...(enviorement !== undefined && { enviorement }),
+                /* ---------- PORTS ---------- */
+                ...(ports && {
+                    ports: {
+                        update: portsToUpdate.map((p) => ({
+                            where: { id: p.id },
+                            data: {
+                                internal: p.internal,
+                                host: p.host,
+                            },
+                        })),
+                        create: portsToCreate.map((p) => ({
+                            internal: p.internal,
+                            host: p.host,
+                        })),
+                    },
+                }),
+                /* ---------- DOMAINS ---------- */
+                ...(domains && {
+                    domains: {
+                        update: domainsToUpdate.map((d) => ({
+                            where: { id: d.id },
+                            data: {
+                                name: d.name,
+                                domain: d.domain,
+                                port: d.port ?? 80,
+                            },
+                        })),
+                        create: domainsToCreate.map((d) => ({
+                            name: d.name,
+                            domain: d.domain,
+                            port: d.port ?? 80,
+                        })),
+                    },
+                }),
             },
         });
         await composeFileSync(slug);
@@ -128,6 +168,10 @@ export const updateInstance = async (req, res) => {
         });
     }
     catch (err) {
+        const handled = prismaErrorHandler(err);
+        if (handled) {
+            return res.status(handled.status).json(handled.body);
+        }
         res
             .status(400)
             .json({ success: false, message: "Instance updation failed.", err });
@@ -181,10 +225,11 @@ export const deployInstance = async (req, res) => {
             await gitService.clone(instance?.gitUrl, `${PATHS.workspaces}/${slug}/${instance.slug}`, `${slug}-${instance.slug}`);
         }
         if (instance?.type === "Railpacks") {
-            await railpackService.install(`${slug}-${instance.slug}`);
-            await railpackService.build(`${PATHS.workspaces}/${slug}/${instance.slug}`, `${slug}-${instance.slug}`);
+            await railpackService.install(`deploy-${slug}-${instance.slug}`);
+            await railpackService.build(`${PATHS.workspaces}/${slug}/${instance.slug}`, `deploy-${slug}-${instance.slug}`);
         }
-        await composeService.up(instance?.slug, `${PATHS.workspaces}/${slug}`, `${slug}-${instance?.slug}`);
+        await composeService.up(instance?.slug, `starting-${PATHS.workspaces}/${slug}`, `${slug}-${instance?.slug}`);
+        dockerService.logs(instance?.slug, `logs-${slug}-${instance?.slug}`);
         res.send({ success: true, message: "Instance deployment started." });
     }
     catch (err) {
@@ -201,7 +246,14 @@ export const startInstance = async (req, res) => {
                 slug: String(islug),
             },
         });
-        await composeService.start(instance?.slug, `${PATHS.workspaces}/${slug}`, `${slug}-${instance?.slug}`);
+        if (!instance) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Instance not found." });
+        }
+        await composeService.up(instance?.slug, `${PATHS.workspaces}/${slug}`, `start-${slug}-${instance?.slug}`);
+        await composeService.start(instance?.slug, `${PATHS.workspaces}/${slug}`, `start-${slug}-${instance?.slug}`);
+        dockerService.logs(instance?.slug, `logs-${slug}-${instance?.slug}`);
         res.send({ success: true, message: "Instance started successfully." });
     }
     catch (err) {
@@ -218,7 +270,9 @@ export const stopInstance = async (req, res) => {
                 slug: String(islug),
             },
         });
-        await composeService.stop(instance?.slug, `${PATHS.workspaces}/${slug}`, `${slug}-${instance?.slug}`);
+        await composeService.stop(instance?.slug, `${PATHS.workspaces}/${slug}`, `stop-${slug}-${instance?.slug}`);
+        await composeService.down(instance?.slug, `${PATHS.workspaces}/${slug}`, `stop-${slug}-${instance?.slug}`);
+        dockerService.logs(instance?.slug, `logs-${slug}-${instance?.slug}`);
         res.send({ success: true, message: "Instance stopped successfully." });
     }
     catch (err) {
@@ -235,7 +289,13 @@ export const restartInstance = async (req, res) => {
                 slug: String(islug),
             },
         });
-        await composeService.down(instance?.slug, `${PATHS.workspaces}/${slug}`, `${slug}-${instance?.slug}`);
+        io.emit(`status-${slug}-${instance?.slug}`, {
+            status: "restarting",
+            at: Date.now(),
+        });
+        await composeService.down(instance?.slug, `${PATHS.workspaces}/${slug}`, `restart-${slug}-${instance?.slug}`);
+        await composeService.up(instance?.slug, `${PATHS.workspaces}/${slug}`, `restart-${slug}-${instance?.slug}`);
+        dockerService.logs(instance?.slug, `logs-${slug}-${instance?.slug}`);
         res.send({ success: true, message: "Instance restarted successfully." });
     }
     catch (err) {
@@ -252,7 +312,7 @@ export const logsInstance = async (req, res) => {
                 slug: String(islug),
             },
         });
-        dockerService.logs(instance?.slug, `${slug}-${instance?.slug}`);
+        dockerService.logs(instance?.slug, `logs-${slug}-${instance?.slug}`);
         res.send({ success: true, message: "Instance logs fetched successfully." });
     }
     catch (err) {

@@ -50,6 +50,11 @@ export type Workspace = Prisma.WorkspaceModel;
  */
 export type Instance = Prisma.InstanceModel;
 /**
+ * Model GitRepo
+ *
+ */
+export type GitRepo = Prisma.GitRepoModel;
+/**
  * Model Domain
  *
  */
