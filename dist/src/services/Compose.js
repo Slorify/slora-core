@@ -72,8 +72,8 @@ ${services.join("")}
     }
     async up(name, path, channel) {
         if (isSwarmMode) {
-            const stackName = path.split('/').pop() || "app";
-            await runCmd(`docker stack deploy -c ${path}/docker-compose.yml ${stackName}`, channel);
+            const stackName = path.split("/").pop() || "app";
+            await runCmd(`docker stack deploy -d -c ${path}/docker-compose.yml ${stackName}`, channel);
         }
         else {
             if (!name) {
@@ -86,7 +86,7 @@ ${services.join("")}
     }
     async down(name, path, channel) {
         if (isSwarmMode) {
-            const stackName = path.split('/').pop() || "app";
+            const stackName = path.split("/").pop() || "app";
             await runCmd(`docker stack rm ${stackName}`, channel);
         }
         else {
@@ -100,7 +100,7 @@ ${services.join("")}
     }
     async start(name, path, channel) {
         if (isSwarmMode) {
-            const stackName = path.split('/').pop() || "app";
+            const stackName = path.split("/").pop() || "app";
             await runCmd(`docker service scale ${stackName}_${name}=1`, channel);
         }
         else {
@@ -109,7 +109,7 @@ ${services.join("")}
     }
     async stop(name, path, channel) {
         if (isSwarmMode) {
-            const stackName = path.split('/').pop() || "app";
+            const stackName = path.split("/").pop() || "app";
             await runCmd(`docker service scale ${stackName}_${name}=0`, channel);
         }
         else {

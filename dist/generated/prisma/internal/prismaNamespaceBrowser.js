@@ -53,6 +53,9 @@ export const ModelName = {
  * Enums
  */
 export const TransactionIsolationLevel = runtime.makeStrictEnum({
+    ReadUncommitted: 'ReadUncommitted',
+    ReadCommitted: 'ReadCommitted',
+    RepeatableRead: 'RepeatableRead',
     Serializable: 'Serializable'
 });
 export const SessionScalarFieldEnum = {
@@ -94,6 +97,7 @@ export const WorkspaceScalarFieldEnum = {
     slug: 'slug',
     description: 'description',
     userId: 'userId',
+    maxInstances: 'maxInstances',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };
@@ -143,14 +147,14 @@ export const NullableJsonNullValueInput = {
     DbNull: DbNull,
     JsonNull: JsonNull
 };
+export const QueryMode = {
+    default: 'default',
+    insensitive: 'insensitive'
+};
 export const JsonNullValueFilter = {
     DbNull: DbNull,
     JsonNull: JsonNull,
     AnyNull: AnyNull
-};
-export const QueryMode = {
-    default: 'default',
-    insensitive: 'insensitive'
 };
 export const NullsOrder = {
     first: 'first',

@@ -52,6 +52,14 @@ class Docker {
             await runCmd(`docker network create ${name}`, channel);
         }
     }
+    async deleteNetwork(name, channel) {
+        if (isSwarmMode) {
+            await runCmd(`docker network rm ${name}`, channel);
+        }
+        else {
+            await runCmd(`docker network rm ${name}`, channel);
+        }
+    }
     async logs(name, channel) {
         if (isSwarmMode) {
             await runCmd(`docker service ls --format "{{.Name}}" | grep "_${name}$" | head -1 | xargs -I {} docker service logs -f {}`, channel);

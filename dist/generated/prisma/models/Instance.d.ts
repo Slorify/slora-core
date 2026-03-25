@@ -609,6 +609,7 @@ export type InstanceCreateOrConnectWithoutWorkspacesInput = {
 };
 export type InstanceCreateManyWorkspacesInputEnvelope = {
     data: Prisma.InstanceCreateManyWorkspacesInput | Prisma.InstanceCreateManyWorkspacesInput[];
+    skipDuplicates?: boolean;
 };
 export type InstanceUpsertWithWhereUniqueWithoutWorkspacesInput = {
     where: Prisma.InstanceWhereUniqueInput;
@@ -1665,6 +1666,7 @@ export type InstanceCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
      * The data used to create many Instances.
      */
     data: Prisma.InstanceCreateManyInput | Prisma.InstanceCreateManyInput[];
+    skipDuplicates?: boolean;
 };
 /**
  * Instance createManyAndReturn
@@ -1682,6 +1684,7 @@ export type InstanceCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
      * The data used to create many Instances.
      */
     data: Prisma.InstanceCreateManyInput | Prisma.InstanceCreateManyInput[];
+    skipDuplicates?: boolean;
     /**
      * Choose, which related nodes to fetch as well
      */

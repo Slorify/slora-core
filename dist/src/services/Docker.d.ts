@@ -6,6 +6,7 @@ declare class Docker {
     remove(name: string, channel: string): Promise<void>;
     deleteImage(image: string, channel: string): Promise<void>;
     createNetwork(name: string, channel: string): Promise<void>;
+    deleteNetwork(name: string, channel: string): Promise<void>;
     logs(name: string, channel: string): Promise<void>;
 }
 export declare const dockerService: Docker;

@@ -1,0 +1,1 @@
+{"version":3,"file":"SwarmWatcher.d.ts","sourceRoot":"","sources":["../../../src/services/SwarmWatcher.ts"],"names":[],"mappings":"AAKA,wBAAsB,mBAAmB,CACvC,SAAS,EAAE,MAAM,EACjB,EACE,SAAkB,EAClB,MAAc,EACd,YAAmB,GACpB,GAAE;IACD,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,MAAM,CAAC,EAAE,MAAM,CAAC;IAChB,YAAY,CAAC,EAAE,OAAO,CAAC;CACnB,iBA0BP"}

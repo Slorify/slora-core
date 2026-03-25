@@ -1202,6 +1202,7 @@ export type UserCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
      * The data used to create many Users.
      */
     data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[];
+    skipDuplicates?: boolean;
 };
 /**
  * User createManyAndReturn
@@ -1219,6 +1220,7 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
      * The data used to create many Users.
      */
     data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[];
+    skipDuplicates?: boolean;
 };
 /**
  * User update

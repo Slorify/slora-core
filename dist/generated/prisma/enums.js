@@ -11,6 +11,10 @@ export const Role = {
     USER: 'USER',
     ADMIN: 'ADMIN'
 };
+export const ProxyType = {
+    Domain: 'Domain',
+    Port: 'Port'
+};
 export const Type = {
     Railpacks: 'Railpacks',
     Dockerfile: 'Dockerfile',

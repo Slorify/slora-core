@@ -1,5 +1,5 @@
 import { execCmd } from "./execCmd";
-import { runCmd } from "../utils/runCmd";
+import { runCmd } from "../utils/runCmd.js";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -26,7 +26,7 @@ export async function waitForSwarmRunning(
       ps.includes("No such image")
     ) {
       if (removeOnFail) {
-        await runCmd(`docker stack rm ${stackName}`);
+        await runCmd(`docker stack rm ${stackName}`, "");
       }
       throw new Error("Swarm deployment failed");
     }

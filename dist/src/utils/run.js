@@ -9,11 +9,10 @@ export default function run(command, onLiveLog, options = {}) {
             shell: true,
             cwd: options.cwd || process.cwd(),
             env: {
-                ...process.env, // inherit current env
-                ...options.env, // merge custom env vars
+                ...process.env,
+                ...options.env,
             },
         });
-        // LIVE STDOUT
         if (child.stdout) {
             child.stdout.on("data", (data) => {
                 const text = data.toString();
@@ -22,7 +21,6 @@ export default function run(command, onLiveLog, options = {}) {
                     onLiveLog(text);
             });
         }
-        // LIVE STDERR
         if (child.stderr) {
             child.stderr.on("data", (data) => {
                 const text = data.toString();

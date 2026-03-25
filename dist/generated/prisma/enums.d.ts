@@ -3,6 +3,11 @@ export declare const Role: {
     readonly ADMIN: "ADMIN";
 };
 export type Role = (typeof Role)[keyof typeof Role];
+export declare const ProxyType: {
+    readonly Domain: "Domain";
+    readonly Port: "Port";
+};
+export type ProxyType = (typeof ProxyType)[keyof typeof ProxyType];
 export declare const Type: {
     readonly Railpacks: "Railpacks";
     readonly Dockerfile: "Dockerfile";

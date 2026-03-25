@@ -1,6 +1,6 @@
 import { io } from "../server.js";
 import { prisma } from "../lib/prisma.js";
-const lastEmittedStatus = new Map();
+export const lastEmittedStatus = new Map();
 function phaseToStatus(phase) {
     switch (phase) {
         case "deploy":

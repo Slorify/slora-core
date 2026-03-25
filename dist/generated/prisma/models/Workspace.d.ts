@@ -15,10 +15,12 @@ export type AggregateWorkspace = {
 export type WorkspaceAvgAggregateOutputType = {
     id: number | null;
     userId: number | null;
+    maxInstances: number | null;
 };
 export type WorkspaceSumAggregateOutputType = {
     id: number | null;
     userId: number | null;
+    maxInstances: number | null;
 };
 export type WorkspaceMinAggregateOutputType = {
     id: number | null;
@@ -26,6 +28,7 @@ export type WorkspaceMinAggregateOutputType = {
     slug: string | null;
     description: string | null;
     userId: number | null;
+    maxInstances: number | null;
     createdAt: Date | null;
     updatedAt: Date | null;
 };
@@ -35,6 +38,7 @@ export type WorkspaceMaxAggregateOutputType = {
     slug: string | null;
     description: string | null;
     userId: number | null;
+    maxInstances: number | null;
     createdAt: Date | null;
     updatedAt: Date | null;
 };
@@ -44,6 +48,7 @@ export type WorkspaceCountAggregateOutputType = {
     slug: number;
     description: number;
     userId: number;
+    maxInstances: number;
     createdAt: number;
     updatedAt: number;
     _all: number;
@@ -51,10 +56,12 @@ export type WorkspaceCountAggregateOutputType = {
 export type WorkspaceAvgAggregateInputType = {
     id?: true;
     userId?: true;
+    maxInstances?: true;
 };
 export type WorkspaceSumAggregateInputType = {
     id?: true;
     userId?: true;
+    maxInstances?: true;
 };
 export type WorkspaceMinAggregateInputType = {
     id?: true;
@@ -62,6 +69,7 @@ export type WorkspaceMinAggregateInputType = {
     slug?: true;
     description?: true;
     userId?: true;
+    maxInstances?: true;
     createdAt?: true;
     updatedAt?: true;
 };
@@ -71,6 +79,7 @@ export type WorkspaceMaxAggregateInputType = {
     slug?: true;
     description?: true;
     userId?: true;
+    maxInstances?: true;
     createdAt?: true;
     updatedAt?: true;
 };
@@ -80,6 +89,7 @@ export type WorkspaceCountAggregateInputType = {
     slug?: true;
     description?: true;
     userId?: true;
+    maxInstances?: true;
     createdAt?: true;
     updatedAt?: true;
     _all?: true;
@@ -166,6 +176,7 @@ export type WorkspaceGroupByOutputType = {
     slug: string;
     description: string | null;
     userId: number;
+    maxInstances: number;
     createdAt: Date;
     updatedAt: Date | null;
     _count: WorkspaceCountAggregateOutputType | null;
@@ -186,6 +197,7 @@ export type WorkspaceWhereInput = {
     slug?: Prisma.StringFilter<"Workspace"> | string;
     description?: Prisma.StringNullableFilter<"Workspace"> | string | null;
     userId?: Prisma.IntFilter<"Workspace"> | number;
+    maxInstances?: Prisma.IntFilter<"Workspace"> | number;
     createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string;
     updatedAt?: Prisma.DateTimeNullableFilter<"Workspace"> | Date | string | null;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
@@ -197,6 +209,7 @@ export type WorkspaceOrderByWithRelationInput = {
     slug?: Prisma.SortOrder;
     description?: Prisma.SortOrderInput | Prisma.SortOrder;
     userId?: Prisma.SortOrder;
+    maxInstances?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
     user?: Prisma.UserOrderByWithRelationInput;
@@ -211,6 +224,7 @@ export type WorkspaceWhereUniqueInput = Prisma.AtLeast<{
     name?: Prisma.StringFilter<"Workspace"> | string;
     description?: Prisma.StringNullableFilter<"Workspace"> | string | null;
     userId?: Prisma.IntFilter<"Workspace"> | number;
+    maxInstances?: Prisma.IntFilter<"Workspace"> | number;
     createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string;
     updatedAt?: Prisma.DateTimeNullableFilter<"Workspace"> | Date | string | null;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
@@ -222,6 +236,7 @@ export type WorkspaceOrderByWithAggregationInput = {
     slug?: Prisma.SortOrder;
     description?: Prisma.SortOrderInput | Prisma.SortOrder;
     userId?: Prisma.SortOrder;
+    maxInstances?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
     _count?: Prisma.WorkspaceCountOrderByAggregateInput;
@@ -239,6 +254,7 @@ export type WorkspaceScalarWhereWithAggregatesInput = {
     slug?: Prisma.StringWithAggregatesFilter<"Workspace"> | string;
     description?: Prisma.StringNullableWithAggregatesFilter<"Workspace"> | string | null;
     userId?: Prisma.IntWithAggregatesFilter<"Workspace"> | number;
+    maxInstances?: Prisma.IntWithAggregatesFilter<"Workspace"> | number;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"Workspace"> | Date | string;
     updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Workspace"> | Date | string | null;
 };
@@ -246,6 +262,7 @@ export type WorkspaceCreateInput = {
     name: string;
     slug: string;
     description?: string | null;
+    maxInstances?: number;
     createdAt?: Date | string;
     updatedAt?: Date | string | null;
     user: Prisma.UserCreateNestedOneWithoutWorkspacesInput;
@@ -257,6 +274,7 @@ export type WorkspaceUncheckedCreateInput = {
     slug: string;
     description?: string | null;
     userId: number;
+    maxInstances?: number;
     createdAt?: Date | string;
     updatedAt?: Date | string | null;
     instances?: Prisma.InstanceUncheckedCreateNestedManyWithoutWorkspacesInput;
@@ -265,6 +283,7 @@ export type WorkspaceUpdateInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    maxInstances?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     user?: Prisma.UserUpdateOneRequiredWithoutWorkspacesNestedInput;
@@ -276,6 +295,7 @@ export type WorkspaceUncheckedUpdateInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     userId?: Prisma.IntFieldUpdateOperationsInput | number;
+    maxInstances?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     instances?: Prisma.InstanceUncheckedUpdateManyWithoutWorkspacesNestedInput;
@@ -286,6 +306,7 @@ export type WorkspaceCreateManyInput = {
     slug: string;
     description?: string | null;
     userId: number;
+    maxInstances?: number;
     createdAt?: Date | string;
     updatedAt?: Date | string | null;
 };
@@ -293,6 +314,7 @@ export type WorkspaceUpdateManyMutationInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    maxInstances?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
@@ -302,6 +324,7 @@ export type WorkspaceUncheckedUpdateManyInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     userId?: Prisma.IntFieldUpdateOperationsInput | number;
+    maxInstances?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
@@ -319,12 +342,14 @@ export type WorkspaceCountOrderByAggregateInput = {
     slug?: Prisma.SortOrder;
     description?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
+    maxInstances?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
 };
 export type WorkspaceAvgOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
+    maxInstances?: Prisma.SortOrder;
 };
 export type WorkspaceMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -332,6 +357,7 @@ export type WorkspaceMaxOrderByAggregateInput = {
     slug?: Prisma.SortOrder;
     description?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
+    maxInstances?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
 };
@@ -341,12 +367,14 @@ export type WorkspaceMinOrderByAggregateInput = {
     slug?: Prisma.SortOrder;
     description?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
+    maxInstances?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
 };
 export type WorkspaceSumOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
+    maxInstances?: Prisma.SortOrder;
 };
 export type WorkspaceScalarRelationFilter = {
     is?: Prisma.WorkspaceWhereInput;
@@ -409,6 +437,7 @@ export type WorkspaceCreateWithoutUserInput = {
     name: string;
     slug: string;
     description?: string | null;
+    maxInstances?: number;
     createdAt?: Date | string;
     updatedAt?: Date | string | null;
     instances?: Prisma.InstanceCreateNestedManyWithoutWorkspacesInput;
@@ -418,6 +447,7 @@ export type WorkspaceUncheckedCreateWithoutUserInput = {
     name: string;
     slug: string;
     description?: string | null;
+    maxInstances?: number;
     createdAt?: Date | string;
     updatedAt?: Date | string | null;
     instances?: Prisma.InstanceUncheckedCreateNestedManyWithoutWorkspacesInput;
@@ -428,6 +458,7 @@ export type WorkspaceCreateOrConnectWithoutUserInput = {
 };
 export type WorkspaceCreateManyUserInputEnvelope = {
     data: Prisma.WorkspaceCreateManyUserInput | Prisma.WorkspaceCreateManyUserInput[];
+    skipDuplicates?: boolean;
 };
 export type WorkspaceUpsertWithWhereUniqueWithoutUserInput = {
     where: Prisma.WorkspaceWhereUniqueInput;
@@ -451,6 +482,7 @@ export type WorkspaceScalarWhereInput = {
     slug?: Prisma.StringFilter<"Workspace"> | string;
     description?: Prisma.StringNullableFilter<"Workspace"> | string | null;
     userId?: Prisma.IntFilter<"Workspace"> | number;
+    maxInstances?: Prisma.IntFilter<"Workspace"> | number;
     createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string;
     updatedAt?: Prisma.DateTimeNullableFilter<"Workspace"> | Date | string | null;
 };
@@ -458,6 +490,7 @@ export type WorkspaceCreateWithoutInstancesInput = {
     name: string;
     slug: string;
     description?: string | null;
+    maxInstances?: number;
     createdAt?: Date | string;
     updatedAt?: Date | string | null;
     user: Prisma.UserCreateNestedOneWithoutWorkspacesInput;
@@ -468,6 +501,7 @@ export type WorkspaceUncheckedCreateWithoutInstancesInput = {
     slug: string;
     description?: string | null;
     userId: number;
+    maxInstances?: number;
     createdAt?: Date | string;
     updatedAt?: Date | string | null;
 };
@@ -488,6 +522,7 @@ export type WorkspaceUpdateWithoutInstancesInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    maxInstances?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     user?: Prisma.UserUpdateOneRequiredWithoutWorkspacesNestedInput;
@@ -498,6 +533,7 @@ export type WorkspaceUncheckedUpdateWithoutInstancesInput = {
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     userId?: Prisma.IntFieldUpdateOperationsInput | number;
+    maxInstances?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
@@ -506,6 +542,7 @@ export type WorkspaceCreateManyUserInput = {
     name: string;
     slug: string;
     description?: string | null;
+    maxInstances?: number;
     createdAt?: Date | string;
     updatedAt?: Date | string | null;
 };
@@ -513,6 +550,7 @@ export type WorkspaceUpdateWithoutUserInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    maxInstances?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     instances?: Prisma.InstanceUpdateManyWithoutWorkspacesNestedInput;
@@ -522,6 +560,7 @@ export type WorkspaceUncheckedUpdateWithoutUserInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    maxInstances?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     instances?: Prisma.InstanceUncheckedUpdateManyWithoutWorkspacesNestedInput;
@@ -531,6 +570,7 @@ export type WorkspaceUncheckedUpdateManyWithoutUserInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     slug?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    maxInstances?: Prisma.IntFieldUpdateOperationsInput | number;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
@@ -564,6 +604,7 @@ export type WorkspaceSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
     slug?: boolean;
     description?: boolean;
     userId?: boolean;
+    maxInstances?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -576,6 +617,7 @@ export type WorkspaceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
     slug?: boolean;
     description?: boolean;
     userId?: boolean;
+    maxInstances?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -586,6 +628,7 @@ export type WorkspaceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
     slug?: boolean;
     description?: boolean;
     userId?: boolean;
+    maxInstances?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -596,10 +639,11 @@ export type WorkspaceSelectScalar = {
     slug?: boolean;
     description?: boolean;
     userId?: boolean;
+    maxInstances?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
 };
-export type WorkspaceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "description" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["workspace"]>;
+export type WorkspaceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "description" | "userId" | "maxInstances" | "createdAt" | "updatedAt", ExtArgs["result"]["workspace"]>;
 export type WorkspaceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     instances?: boolean | Prisma.Workspace$instancesArgs<ExtArgs>;
@@ -623,6 +667,7 @@ export type $WorkspacePayload<ExtArgs extends runtime.Types.Extensions.InternalA
         slug: string;
         description: string | null;
         userId: number;
+        maxInstances: number;
         createdAt: Date;
         updatedAt: Date | null;
     }, ExtArgs["result"]["workspace"]>;
@@ -986,6 +1031,7 @@ export interface WorkspaceFieldRefs {
     readonly slug: Prisma.FieldRef<"Workspace", 'String'>;
     readonly description: Prisma.FieldRef<"Workspace", 'String'>;
     readonly userId: Prisma.FieldRef<"Workspace", 'Int'>;
+    readonly maxInstances: Prisma.FieldRef<"Workspace", 'Int'>;
     readonly createdAt: Prisma.FieldRef<"Workspace", 'DateTime'>;
     readonly updatedAt: Prisma.FieldRef<"Workspace", 'DateTime'>;
 }
@@ -1208,6 +1254,7 @@ export type WorkspaceCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
      * The data used to create many Workspaces.
      */
     data: Prisma.WorkspaceCreateManyInput | Prisma.WorkspaceCreateManyInput[];
+    skipDuplicates?: boolean;
 };
 /**
  * Workspace createManyAndReturn
@@ -1225,6 +1272,7 @@ export type WorkspaceCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
      * The data used to create many Workspaces.
      */
     data: Prisma.WorkspaceCreateManyInput | Prisma.WorkspaceCreateManyInput[];
+    skipDuplicates?: boolean;
     /**
      * Choose, which related nodes to fetch as well
      */

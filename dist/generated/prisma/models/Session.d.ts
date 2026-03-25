@@ -817,6 +817,7 @@ export type SessionCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
      * The data used to create many Sessions.
      */
     data: Prisma.SessionCreateManyInput | Prisma.SessionCreateManyInput[];
+    skipDuplicates?: boolean;
 };
 /**
  * Session createManyAndReturn
@@ -834,6 +835,7 @@ export type SessionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
      * The data used to create many Sessions.
      */
     data: Prisma.SessionCreateManyInput | Prisma.SessionCreateManyInput[];
+    skipDuplicates?: boolean;
 };
 /**
  * Session update

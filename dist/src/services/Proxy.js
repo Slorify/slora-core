@@ -99,6 +99,7 @@ class Proxy {
         await fileService.createDir(PATHS.proxy);
         const proxyConfig = isSwarmMode ? swarmProxy : composeProxy;
         await fileService.writeFile(`${PATHS.proxy}/docker-compose.yml`, proxyConfig);
+        await dockerService.remove(NETWORKS.proxy, `deploy-${proxyName}`);
         await dockerService.createNetwork(NETWORKS.proxy, `deploy-${proxyName}`);
         await composeService.up(proxyName, `${PATHS.proxy}/`, `deploy-${proxyName}`);
     }

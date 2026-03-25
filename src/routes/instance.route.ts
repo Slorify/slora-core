@@ -13,22 +13,23 @@ import {
   updateInstance,
 } from "../controllers/instance.controller.js";
 import { getInstanceGit, updateGitUrl } from "../controllers/git.controller.js";
+import { checkAdmin } from "../middlewares/checkAdmin.js";
 
 const router: Router = Router({ mergeParams: true });
 
-router.post("/", createInstance);
-router.delete("/:islug", deleteInstance);
+router.post("/",checkAdmin, createInstance);
+router.delete("/:islug",checkAdmin, deleteInstance);
 router.put("/:islug", updateInstance);
 
 router.get("/:islug", getInstance);
 router.get("/", getAllInstances);
 
-router.post("/:islug/deploy", deployInstance);
-router.post("/sync", syncComposeFile);
-router.post("/:islug/start", startInstance);
-router.post("/:islug/restart", restartInstance);
-router.post("/:islug/stop", stopInstance);
-router.post("/:islug/logs", logsInstance);
+router.post("/:islug/deploy",checkAdmin, deployInstance);
+router.post("/sync",checkAdmin, syncComposeFile);
+router.post("/:islug/start", checkAdmin,startInstance);
+router.post("/:islug/restart", checkAdmin,restartInstance);
+router.post("/:islug/stop",checkAdmin, stopInstance);
+router.post("/:islug/logs", checkAdmin,logsInstance);
 
 router.put("/:islug/gitUrl", updateGitUrl);
 router.get("/:islug/gitRepo", getInstanceGit);

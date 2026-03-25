@@ -994,6 +994,7 @@ export type GitRepoCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
      * The data used to create many GitRepos.
      */
     data: Prisma.GitRepoCreateManyInput | Prisma.GitRepoCreateManyInput[];
+    skipDuplicates?: boolean;
 };
 /**
  * GitRepo createManyAndReturn
@@ -1011,6 +1012,7 @@ export type GitRepoCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
      * The data used to create many GitRepos.
      */
     data: Prisma.GitRepoCreateManyInput | Prisma.GitRepoCreateManyInput[];
+    skipDuplicates?: boolean;
     /**
      * Choose, which related nodes to fetch as well
      */

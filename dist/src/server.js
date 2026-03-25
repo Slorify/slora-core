@@ -48,7 +48,6 @@ else {
 }
 server.listen(port, async () => {
     console.log(`Application running on: http://localhost:${port}`);
-    // Auto-migrate between Compose and Swarm modes
     try {
         await migrationService.autoMigrate();
     }

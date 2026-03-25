@@ -358,6 +358,7 @@ export type DomainCreateOrConnectWithoutInstancesInput = {
 };
 export type DomainCreateManyInstancesInputEnvelope = {
     data: Prisma.DomainCreateManyInstancesInput | Prisma.DomainCreateManyInstancesInput[];
+    skipDuplicates?: boolean;
 };
 export type DomainUpsertWithWhereUniqueWithoutInstancesInput = {
     where: Prisma.DomainWhereUniqueInput;
@@ -1037,6 +1038,7 @@ export type DomainCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
      * The data used to create many Domains.
      */
     data: Prisma.DomainCreateManyInput | Prisma.DomainCreateManyInput[];
+    skipDuplicates?: boolean;
 };
 /**
  * Domain createManyAndReturn
@@ -1054,6 +1056,7 @@ export type DomainCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
      * The data used to create many Domains.
      */
     data: Prisma.DomainCreateManyInput | Prisma.DomainCreateManyInput[];
+    skipDuplicates?: boolean;
     /**
      * Choose, which related nodes to fetch as well
      */

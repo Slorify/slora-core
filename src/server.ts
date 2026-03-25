@@ -60,7 +60,7 @@ if (isProd) {
   });
 }
 
-server.listen(port, async () => {
+server.listen(port,"0.0.0.0" ,async () => {
   console.log(`Application running on: http://localhost:${port}`);
 
   try {

@@ -38,6 +38,9 @@ export declare const ModelName: {
 };
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 export declare const TransactionIsolationLevel: {
+    readonly ReadUncommitted: "ReadUncommitted";
+    readonly ReadCommitted: "ReadCommitted";
+    readonly RepeatableRead: "RepeatableRead";
     readonly Serializable: "Serializable";
 };
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
@@ -84,6 +87,7 @@ export declare const WorkspaceScalarFieldEnum: {
     readonly slug: "slug";
     readonly description: "description";
     readonly userId: "userId";
+    readonly maxInstances: "maxInstances";
     readonly createdAt: "createdAt";
     readonly updatedAt: "updatedAt";
 };
@@ -141,17 +145,17 @@ export declare const NullableJsonNullValueInput: {
     readonly JsonNull: import("@prisma/client/runtime/client.js").JsonNullClass;
 };
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
+export declare const QueryMode: {
+    readonly default: "default";
+    readonly insensitive: "insensitive";
+};
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode];
 export declare const JsonNullValueFilter: {
     readonly DbNull: import("@prisma/client/runtime/client.js").DbNullClass;
     readonly JsonNull: import("@prisma/client/runtime/client.js").JsonNullClass;
     readonly AnyNull: import("@prisma/client/runtime/client.js").AnyNullClass;
 };
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];
-export declare const QueryMode: {
-    readonly default: "default";
-    readonly insensitive: "insensitive";
-};
-export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode];
 export declare const NullsOrder: {
     readonly first: "first";
     readonly last: "last";

@@ -475,6 +475,7 @@ export type GithubAppCreateOrConnectWithoutUserInput = {
 };
 export type GithubAppCreateManyUserInputEnvelope = {
     data: Prisma.GithubAppCreateManyUserInput | Prisma.GithubAppCreateManyUserInput[];
+    skipDuplicates?: boolean;
 };
 export type GithubAppUpsertWithWhereUniqueWithoutUserInput = {
     where: Prisma.GithubAppWhereUniqueInput;
@@ -1209,6 +1210,7 @@ export type GithubAppCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
      * The data used to create many GithubApps.
      */
     data: Prisma.GithubAppCreateManyInput | Prisma.GithubAppCreateManyInput[];
+    skipDuplicates?: boolean;
 };
 /**
  * GithubApp createManyAndReturn
@@ -1226,6 +1228,7 @@ export type GithubAppCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
      * The data used to create many GithubApps.
      */
     data: Prisma.GithubAppCreateManyInput | Prisma.GithubAppCreateManyInput[];
+    skipDuplicates?: boolean;
     /**
      * Choose, which related nodes to fetch as well
      */

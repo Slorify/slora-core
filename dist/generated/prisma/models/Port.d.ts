@@ -347,6 +347,7 @@ export type PortCreateOrConnectWithoutInstancesInput = {
 };
 export type PortCreateManyInstancesInputEnvelope = {
     data: Prisma.PortCreateManyInstancesInput | Prisma.PortCreateManyInstancesInput[];
+    skipDuplicates?: boolean;
 };
 export type PortUpsertWithWhereUniqueWithoutInstancesInput = {
     where: Prisma.PortWhereUniqueInput;
@@ -1015,6 +1016,7 @@ export type PortCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
      * The data used to create many Ports.
      */
     data: Prisma.PortCreateManyInput | Prisma.PortCreateManyInput[];
+    skipDuplicates?: boolean;
 };
 /**
  * Port createManyAndReturn
@@ -1032,6 +1034,7 @@ export type PortCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
      * The data used to create many Ports.
      */
     data: Prisma.PortCreateManyInput | Prisma.PortCreateManyInput[];
+    skipDuplicates?: boolean;
     /**
      * Choose, which related nodes to fetch as well
      */

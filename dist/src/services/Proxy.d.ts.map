@@ -1,1 +1,1 @@
-{"version":3,"file":"Proxy.d.ts","sourceRoot":"","sources":["../../../src/services/Proxy.ts"],"names":[],"mappings":"AAoGA,cAAM,KAAK;IACH,OAAO;IAeP,KAAK;IAIL,IAAI;IAIJ,IAAI;CAGX;AAED,eAAO,MAAM,YAAY,OAAc,CAAC"}
+{"version":3,"file":"Proxy.d.ts","sourceRoot":"","sources":["../../../src/services/Proxy.ts"],"names":[],"mappings":"AAoGA,cAAM,KAAK;IACH,OAAO;IAgBP,KAAK;IAIL,IAAI;IAIJ,IAAI;CAGX;AAED,eAAO,MAAM,YAAY,OAAc,CAAC"}
